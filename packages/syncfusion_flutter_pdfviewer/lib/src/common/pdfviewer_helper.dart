@@ -6,7 +6,7 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 import '../control/pdftextline.dart';
 import 'mobile_helper.dart'
-    if (dart.library.html) 'package:syncfusion_flutter_pdfviewer/src/common/web_helper.dart'
+    if (dart.library.js_interop) 'package:syncfusion_flutter_pdfviewer/src/common/web_helper.dart'
     as helper;
 
 /// Indicates whether the current environment is running in Desktop
@@ -100,6 +100,34 @@ class TextSelectionHelper {
 
   /// Gets the selected text lines.
   List<PdfTextLine> selectedTextLines = <PdfTextLine>[];
+
+  void reset() {
+    selectionEnabled = false;
+    mouseSelectionEnabled = false;
+    firstSelectedGlyph = null;
+    viewId = null;
+    cursorPageNumber = null;
+    globalSelectedRegion = null;
+    copiedText = null;
+    startBubbleX = null;
+    startBubbleY = null;
+    endBubbleX = null;
+    endBubbleY = null;
+    heightPercentage = null;
+    textLines = null;
+    cursorTextLines = null;
+    startBubbleLine = null;
+    endBubbleLine = null;
+    historyEntry = null;
+    isCursorExit = false;
+    isCursorReachedTop = false;
+    initialScrollOffset = 0;
+    finalScrollOffset = 0;
+    enableTapSelection = false;
+    startIndex = 0;
+    endIndex = 0;
+    selectedTextLines.clear();
+  }
 }
 
 /// Determines different page navigation.
@@ -118,4 +146,43 @@ enum Navigation {
 
   /// Navigates to previous page
   previousPage
+}
+
+/// The [PdfColor] extension for [Color].
+extension PdfColorExtension on PdfColor {
+  /// Converts the [PdfColor] to [Color].
+  Color get materialColor => Color.fromRGBO(r, g, b, 1);
+}
+
+/// The [Color] extension.
+extension MaterialColorExtension on Color {
+  /// Converts the [Color] to [PdfColor].
+  PdfColor get pdfColor => PdfColor(red, green, blue);
+
+  /// Converts the [Color] to a lighter color based on the given factor.
+  Color getLightenColor(double factor) {
+    factor = factor.clamp(-1.0, 1.0);
+
+    double r = red / 255.0;
+    double g = green / 255.0;
+    double b = blue / 255.0;
+
+    if (factor < 0) {
+      factor += 1;
+      r *= factor;
+      g *= factor;
+      b *= factor;
+    } else {
+      r = (1 - r) * factor + r;
+      g = (1 - g) * factor + g;
+      b = (1 - b) * factor + b;
+    }
+
+    return Color.fromRGBO(
+      (r * 255).round(),
+      (g * 255).round(),
+      (b * 255).round(),
+      opacity,
+    );
+  }
 }

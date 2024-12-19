@@ -51,6 +51,7 @@ class HistogramSeries<T, D> extends XyDataSeries<T, D> {
     super.borderGradient,
     this.borderRadius = BorderRadius.zero,
     super.enableTooltip = true,
+    super.enableTrackball = true,
     super.animationDuration,
     this.trackColor = Colors.grey,
     this.trackBorderColor = Colors.transparent,
@@ -514,7 +515,7 @@ class HistogramSegment<T, D> extends ChartSegment with BarSeriesTrackerMixin {
       final CartesianChartPoint<D> chartPoint = _chartPoint();
       final TooltipBehavior tooltipBehavior = series.parent!.tooltipBehavior!;
       final int digits = tooltipBehavior.decimalPlaces;
-      final TooltipPosition? tooltipPosition = tooltipBehavior.tooltipPosition;
+      final TooltipPosition tooltipPosition = tooltipBehavior.tooltipPosition;
       final ChartMarker marker = series.markerAt(pointIndex);
       final double markerHeight =
           series.markerSettings.isVisible ? marker.height / 2 : 0;
@@ -634,12 +635,12 @@ class HistogramSegment<T, D> extends ChartSegment with BarSeriesTrackerMixin {
 
     final RRect? paintRRect =
         RRect.lerp(_oldSegmentRect, segmentRect, animationFactor);
-    if (paintRRect == null || paintRRect.isEmpty) {
+    if (paintRRect == null) {
       return;
     }
 
     Paint paint = getFillPaint();
-    if (paint.color != Colors.transparent) {
+    if (paint.color != Colors.transparent && !paintRRect.isEmpty) {
       canvas.drawRRect(paintRRect, paint);
     }
 

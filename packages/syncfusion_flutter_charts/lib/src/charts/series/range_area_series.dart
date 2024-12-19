@@ -50,6 +50,7 @@ class RangeAreaSeries<T, D> extends RangeSeriesBase<T, D> {
     super.dataLabelSettings,
     super.initialIsVisible,
     super.enableTooltip = true,
+    super.enableTrackball = true,
     super.dashArray,
     super.animationDuration,
     super.borderColor = Colors.transparent,
@@ -511,12 +512,16 @@ class RangeAreaSegment<T, D> extends ChartSegment {
   @override
   TrackballInfo? trackballInfo(Offset position, int pointIndex) {
     if (pointIndex != -1 && _highPoints.isNotEmpty) {
-      final Offset preferredPos = _highPoints[pointIndex];
+      final int drawPointIndex = drawIndex(pointIndex, _drawIndexes);
+      if (drawPointIndex == -1) {
+        return null;
+      }
+      final Offset preferredPos = _highPoints[drawPointIndex];
       if (preferredPos.isNaN) {
         return null;
       }
 
-      final int actualPointIndex = _drawIndexes[pointIndex];
+      final int actualPointIndex = _drawIndexes[drawPointIndex];
       final CartesianChartPoint<D> chartPoint = _chartPoint(actualPointIndex);
       return ChartTrackballInfo<T, D>(
         position: preferredPos,

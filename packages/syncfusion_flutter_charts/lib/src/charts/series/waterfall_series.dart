@@ -55,6 +55,7 @@ class WaterfallSeries<T, D> extends XyDataSeries<T, D> {
     super.borderGradient,
     this.borderRadius = BorderRadius.zero,
     super.enableTooltip = true,
+    super.enableTrackball = true,
     super.animationDuration,
     this.borderColor = Colors.transparent,
     super.trendlines,
@@ -621,6 +622,11 @@ class WaterfallSeriesRenderer<T, D> extends XyDataSeriesRenderer<T, D>
         ..sortedIndexes = sortedIndexes
         ..animation = dataLabelAnimation
         ..layout(constraints);
+
+      if (dataLabelSettings.isVisible &&
+          dataLabelSettings.labelIntersectAction != LabelIntersectAction.none) {
+        dataLabelContainer!.handleDataLabelCollision(this);
+      }
     }
   }
 
@@ -927,12 +933,12 @@ class WaterfallSegment<T, D> extends ChartSegment {
 
     final RRect? paintRRect =
         RRect.lerp(_oldSegmentRect, segmentRect, animationFactor);
-    if (paintRRect == null || paintRRect.isEmpty) {
+    if (paintRRect == null) {
       return;
     }
 
     Paint paint = getFillPaint();
-    if (paint.color != Colors.transparent) {
+    if (paint.color != Colors.transparent && !paintRRect.isEmpty) {
       canvas.drawRRect(paintRRect, paint);
     }
 

@@ -10,14 +10,17 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
 
 // Local import
 import 'helper/save_file_mobile.dart'
-    if (dart.library.html) 'helper/save_file_web.dart' as helper;
+    if (dart.library.html) 'helper/save_file_web.dart'
+    if (dart.library.js_interop) 'helper/save_file_wasm.dart' as helper;
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 /// The application that contains datagrid on it.
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

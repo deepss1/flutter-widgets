@@ -50,6 +50,7 @@ class ColumnSeries<T, D> extends XyDataSeries<T, D> {
     super.gradient,
     super.borderGradient,
     super.enableTooltip = true,
+    super.enableTrackball = true,
     super.animationDuration,
     this.trackColor = Colors.grey,
     this.trackBorderColor = Colors.transparent,
@@ -568,12 +569,12 @@ class ColumnSegment<T, D> extends ChartSegment with BarSeriesTrackerMixin {
       paintRRect = RRect.lerp(_oldSegmentRect, segmentRect, animationFactor);
     }
 
-    if (paintRRect == null || paintRRect.isEmpty) {
+    if (paintRRect == null) {
       return;
     }
 
     Paint paint = getFillPaint();
-    if (paint.color != Colors.transparent) {
+    if (paint.color != Colors.transparent && !paintRRect.isEmpty) {
       canvas.drawRRect(paintRRect, paint);
     }
 
