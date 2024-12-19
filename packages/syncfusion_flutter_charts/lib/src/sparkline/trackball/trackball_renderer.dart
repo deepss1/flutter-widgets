@@ -47,7 +47,7 @@ class SparkChartTrackballRenderer extends StatefulWidget {
 class _SparkChartTrackballRendererState
     extends State<SparkChartTrackballRenderer> {
   /// Holds the trackball repaint notifier.
-  ValueNotifier<int>? _trackballRepaintNotifier;
+  late ValueNotifier<int>? _trackballRepaintNotifier;
 
   /// Specifies whether the track ball is enabled.
   bool _isTrackballEnabled = false;
@@ -59,7 +59,7 @@ class _SparkChartTrackballRendererState
   Rect? _areaBounds;
 
   /// Specifies the local rect.
-  Rect? _localBounds;
+  late Rect? _localBounds;
 
   /// Specifies the nearest point index.
   int? _currentIndex;
@@ -190,7 +190,7 @@ class _SparkChartTrackballRendererState
 
   /// Method to enable the trackball behavior.
   void _enableTrackballBehavior(BuildContext context, Offset globalPosition) {
-    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final RenderBox renderBox = context.findRenderObject()! as RenderBox;
     final Size renderBoxSize = renderBox.size;
     final Offset renderBoxOffset = renderBox.localToGlobal(Offset.zero);
     _areaBounds = Rect.fromLTWH(renderBoxOffset.dx, renderBoxOffset.dy,
@@ -223,7 +223,7 @@ class _SparkChartTrackballRendererState
     _isTop = false;
     int? index;
     if (_isTrackballEnabled) {
-      final RenderBox renderBox = context.findRenderObject() as RenderBox;
+      final RenderBox renderBox = context.findRenderObject()! as RenderBox;
       _touchPosition = renderBox.globalToLocal(globalPosition);
       final double currentXPoint = _touchPosition!.dx;
       double xPoint;
@@ -392,7 +392,7 @@ class TrackballPainter extends CustomPainter {
       final TooltipFormatterDetails tooltipFormatterDetails =
           TooltipFormatterDetails(
               x: currentPoint.actualX, y: currentPoint.y, label: dataLabel);
-      dataLabel = _trackball!.tooltipFormatter!(tooltipFormatterDetails);
+      dataLabel = _trackball.tooltipFormatter!(tooltipFormatterDetails);
     }
 
     return dataLabel;
@@ -464,12 +464,12 @@ class TrackballPainter extends CustomPainter {
     path.addRRect(roundedRect);
     canvas.drawPath(path, paint);
 
-    if (_trackball!.borderColor != null &&
-        _trackball!.borderColor != Colors.transparent &&
-        _trackball!.borderWidth > 0) {
+    if (_trackball.borderColor != null &&
+        _trackball.borderColor != Colors.transparent &&
+        _trackball.borderWidth > 0) {
       final Paint borderPaint = Paint()
-        ..color = _trackball!.borderColor!
-        ..strokeWidth = _trackball!.borderWidth
+        ..color = _trackball.borderColor!
+        ..strokeWidth = _trackball.borderWidth
         ..style = PaintingStyle.stroke;
       canvas.drawPath(path, borderPaint);
     }
@@ -481,12 +481,12 @@ class TrackballPainter extends CustomPainter {
     final Paint paint = Paint()
       ..color =
           (_trackball!.color ?? _rendererState._themeData!.trackballLineColor)!
-      ..strokeWidth = _trackball!.width
+      ..strokeWidth = _trackball.width
       ..style = PaintingStyle.stroke;
     final Offset point1 = Offset(screenPoint.dx, 0);
     final Offset point2 = Offset(screenPoint.dx, size.height);
-    if (_trackball!.dashArray != null && _trackball!.dashArray!.isNotEmpty) {
-      drawDashedPath(canvas, paint, point1, point2, _trackball!.dashArray);
+    if (_trackball.dashArray != null && _trackball.dashArray!.isNotEmpty) {
+      drawDashedPath(canvas, paint, point1, point2, _trackball.dashArray);
     } else {
       canvas.drawLine(point1, point2, paint);
     }

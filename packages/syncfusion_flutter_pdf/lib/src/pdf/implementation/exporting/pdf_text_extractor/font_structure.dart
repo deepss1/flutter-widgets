@@ -7,6 +7,7 @@ import '../../graphics/fonts/pdf_font.dart';
 import '../../graphics/fonts/pdf_standard_font.dart';
 import '../../io/decode_big_endian.dart';
 import '../../io/pdf_constants.dart';
+import '../../io/pdf_cross_table.dart';
 import '../../primitives/pdf_array.dart';
 import '../../primitives/pdf_dictionary.dart';
 import '../../primitives/pdf_name.dart';
@@ -61,7 +62,7 @@ class FontStructure {
       }
     }
     _fontStyle = <PdfFontStyle>[PdfFontStyle.regular];
-    defaultGlyphWidth = 0;
+    defaultGlyphWidth = isCid ? 1000 : 0;
     _containsCmap = true;
     differenceEncoding = <int, String>{};
   }
@@ -175,6 +176,9 @@ class FontStructure {
   late List<String> cjkEncoding;
   late List<String> _windows1252MapTable;
 
+  /// internal field
+  bool isLayout = false;
+
 //Properties
   /// internal property
   String? get fontEncoding => _fontEncoding ??= getFontEncoding();
@@ -253,10 +257,12 @@ class FontStructure {
 
   /// internal property
   Map<int, int>? get fontGlyphWidths {
-    if (fontEncoding == 'Identity-H' || fontEncoding == 'Identity#2DH') {
-      _getGlyphWidths();
-    } else {
-      _getGlyphWidthsNonIdH();
+    if (_fontGlyphWidth == null) {
+      if (fontEncoding == 'Identity-H' || fontEncoding == 'Identity#2DH') {
+        _getGlyphWidths();
+      } else {
+        _getGlyphWidthsNonIdH();
+      }
     }
     return _fontGlyphWidth;
   }
@@ -1096,9 +1102,14 @@ class FontStructure {
           }
         } else if (fontDictionary[PdfDictionaryProperties.encoding]
             is PdfReferenceHolder) {
-          baseFontDict = (fontDictionary[PdfDictionaryProperties.encoding]!
-                  as PdfReferenceHolder)
-              .object as PdfDictionary?;
+          final IPdfPrimitive? primitive = PdfCrossTable.dereference(
+              fontDictionary[PdfDictionaryProperties.encoding]);
+          if (primitive != null && primitive is PdfName) {
+            baseFont = primitive;
+            fontEncoding = baseFont.name;
+          } else if (primitive != null && primitive is PdfDictionary) {
+            baseFontDict = primitive;
+          }
         }
         if (baseFontDict != null &&
             baseFontDict.containsKey(PdfDictionaryProperties.type)) {
@@ -1597,9 +1608,11 @@ class FontStructure {
     if (fontDictionary.containsKey(PdfDictionaryProperties.encoding)) {
       if (fontDictionary[PdfDictionaryProperties.encoding]
           is PdfReferenceHolder) {
-        encodingDictionary = (fontDictionary[PdfDictionaryProperties.encoding]!
-                as PdfReferenceHolder)
-            .object as PdfDictionary?;
+        final IPdfPrimitive? primitive = PdfCrossTable.dereference(
+            fontDictionary[PdfDictionaryProperties.encoding]);
+        if (primitive != null && primitive is PdfDictionary) {
+          encodingDictionary = primitive;
+        }
       } else if (fontDictionary[PdfDictionaryProperties.encoding]
           is PdfDictionary) {
         encodingDictionary =
@@ -2913,10 +2926,11 @@ class FontStructure {
             if (cidToGidTable != null && !isTextExtraction) {
               listElement = mapCidToGid(listElement);
             }
-            if (encodedText
-                .substring(textEnd + 1, encodedText.length)
-                .trim()
-                .isEmpty) {
+            if (!isLayout &&
+                encodedText
+                    .substring(textEnd + 1, encodedText.length)
+                    .trim()
+                    .isEmpty) {
               listElement = listElement.trimRight();
             }
             if (listElement.contains(RegExp('[\n-\r]'))) {

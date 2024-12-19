@@ -56,6 +56,7 @@ class BarSeries<T, D> extends XyDataSeries<T, D> {
     super.borderGradient,
     this.borderRadius = BorderRadius.zero,
     super.enableTooltip = true,
+    super.enableTrackball = true,
     super.animationDuration,
     this.trackColor = Colors.grey,
     this.trackBorderColor = Colors.transparent,
@@ -580,19 +581,19 @@ class BarSegment<T, D> extends ChartSegment with BarSeriesTrackerMixin {
       paintRRect = RRect.lerp(_oldSegmentRect, segmentRect, animationFactor);
     }
 
-    if (paintRRect == null || paintRRect.isEmpty) {
+    if (paintRRect == null) {
       return;
     }
 
     Paint paint = getFillPaint();
-    if (paint.color != Colors.transparent) {
+    if (paint.color != Colors.transparent && !paintRRect.isEmpty) {
       canvas.drawRRect(paintRRect, paint);
     }
 
     paint = getStrokePaint();
     final double strokeWidth = paint.strokeWidth;
     if (paint.color != Colors.transparent && strokeWidth > 0) {
-      final Path strokePath = strokePathFromRRect(segmentRect, strokeWidth);
+      final Path strokePath = strokePathFromRRect(paintRRect, strokeWidth);
       drawDashes(canvas, series.dashArray, paint, path: strokePath);
     }
   }

@@ -1,11 +1,76 @@
-## [Unreleased]
+## [28.1.29] - 12/12/2024
+
+**General**
+
+* All of our Syncfusion<sup>&reg;</sup> Flutter widgets have been updated to support [`WebAssembly`](https://docs.flutter.dev/platform-integration/web/wasm) (WASM) as a compilation target for building web applications.
+* The minimum Dart version of our Flutter widgets has been updated to 3.3 from 2.17.
+
+### Features
+
+* \#FB58652 - Added support to enable and disable the trackball behavior for specific series in cartesian charts.
+
+## [27.2.3] - 21/11/2024
+
+**Bugs**
+
+* \#F194931 - Resolved [StackedAreaSeries](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/StackedAreaSeries-class.html) is not rendering properly with negative data points when using multiple stacked series.
+
+## [27.1.54] - 22/10/2024
+
+**Bugs**
+
+* \#BD640641 - Resolved failed assertion exception when the data source had value as zero in [SparkBarChart](https://pub.dev/documentation/syncfusion_flutter_charts/latest/sparkcharts/SfSparkBarChart-class.html).
+* \#BD640555 - Now the [PlotBand](https://pub.dev/documentation/syncfusion_flutter_charts/latest/sparkcharts/SparkChartPlotBand-class.html) update properly for different start and end values.
+
+## [27.1.53] - 15/10/2024
+
+**Bugs**
+
+* \#GH2084 - Now the [onDataLabelTapped](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/SfCartesianChart/onDataLabelTapped.html) callback invoke properly when tap inside data label bounds.
+* \#GH2091 - Resolved no element state exception when the data source had empty data in the [RadialBarSeries](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/RadialBarSeries-class.html) with Legend.
+
+## [27.1.51] - 30/09/2024
+
+**Bugs**
+
+* \#BD626485 - Resolved the range error exception when adding data dynamically in the circular series with [legendItemBuilder](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/Legend/legendItemBuilder.html).
+* \#BD624619 - The trackball builder's position now renders properly in the [groupAllPoints](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/TrackballDisplayMode.html) display mode on transposed charts.
+* \#BD630726 - Resolved the range error exception when updating the data source with the [pointShaderMapper](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/CircularSeries/pointShaderMapper.html) property in the circular series.
+
+## [27.1.48] - 18/09/2024
+
+**General**
+
+* \#GH2008, \#GH2013, \#GH2012, \#BD620212, \#BD620214, \#F192976, \#BD621964, \#BD621021, \#BD620826, \#BD619659, \#BD619610, \#BD620964, \#GH2020, \#F194113, \#GH623599, \#GH1907, \#BD626072, \#BD626410, \#GH2041, \#BD626867, \#GH2045 - The compatible version of our Flutter charts widget has been updated to Flutter SDK 3.24.0.
+
+### Features
+
+* \#FB31997 - Added support for `borderRadius` in the candle series.
+* Added support for customizing `width` and `spacing` of the candle series.
+* Added support for individual plot offset customization for the chart axis.
+* Added `additionalStart`, `additionalEnd`, `roundStart` and `roundEnd` enums to [`rangePadding`](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/ChartAxis/rangePadding.html) property to customize the axis range padding at the start or end of the axis.
+
+**Bugs**
+
+* The [`RadialBarSeries`](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/RadialBarSeries-class.html) animation now updates properly when data points are reset dynamically.
+* The range of the category axis now updates correctly when data points are dynamically replaced.
+* The tooltip position of the trackball builder has been adjusted to inside within the plot area.
+
+## [26.2.9] - 13/08/2024
+
+**Bugs**
+
+* Now, the trackball image marker is updated according to the marker visibility mode set to auto. 
+* Now, the [pointColorMapper](https://pub.dev/documentation/syncfusion_flutter_charts/latest/charts/ChartSeriesRenderer/pointColorMapper.html) colors are properly updated when the data source is dynamically changed with different lengths.
+
+## [26.1.35] - 11/06/2024
 
 ### Features
 
 Added two new indicators in Cartesian Chart:
 
-* Provided Rate of Change Indicator (ROC) support to technical indicators.
-* Provided Weighted Moving Average Indicator (WMA) support to technical indicators.
+* \#FB15987 - Provided Rate of Change Indicator (ROC) support to technical indicators.
+* \#FB15987 - Provided Weighted Moving Average Indicator (WMA) support to technical indicators.
 
 ## [25.2.5] - 09/04/2024
 

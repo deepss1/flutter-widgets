@@ -1020,6 +1020,14 @@ class PdfFormHelper {
           } else {
             helper.save();
           }
+          if (_fields?.count == 0) {
+            final int? index = crossTable!.items!.lookFor(helper.dictionary!);
+            dictionary?.clear();
+            (sender as PdfDictionary).remove(PdfDictionaryProperties.acroForm);
+            if (index != -1) {
+              crossTable!.items!.objectCollection!.removeAt(index!);
+            }
+          }
         }
         ++i;
       }
@@ -1215,13 +1223,13 @@ class PdfFormHelper {
           }
         }
       } else {
-        PdfDictionary? page;
+        IPdfPrimitive? page;
         if (!isLoaded) {
           final PdfReferenceHolder pageRef = dic.containsKey(pName)
               ? (dic[pName] as PdfReferenceHolder?)!
               : PdfReferenceHolder(
                   PdfPageHelper.getHelper(field.page!).dictionary);
-          page = pageRef.object as PdfDictionary?;
+          page = pageRef.object;
         } else {
           PdfReference? pageRef;
           if (dic.containsKey(pName) &&
@@ -1231,9 +1239,11 @@ class PdfFormHelper {
             pageRef = crossTable!
                 .getReference(PdfPageHelper.getHelper(field.page!).dictionary);
           }
-          page = crossTable!.getObject(pageRef) as PdfDictionary?;
+          page = crossTable!.getObject(pageRef);
         }
-        if (page != null && page.containsKey(PdfDictionaryProperties.annots)) {
+        if (page != null &&
+            page is PdfDictionary &&
+            page.containsKey(PdfDictionaryProperties.annots)) {
           final IPdfPrimitive? annots = isLoaded
               ? crossTable!.getObject(page[annotsName])
               : page[PdfDictionaryProperties.annots];
