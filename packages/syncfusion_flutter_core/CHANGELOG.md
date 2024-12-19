@@ -1,6 +1,12 @@
 ## Unreleased
 
 **General**
+
+* The compatible version of all our Flutter widgets has been updated to Flutter SDK 3.24.0.
+  
+## Unreleased
+
+**General**
 * Provided th​e Material 3 themes support.
 
 ## [20.2.38] - 07/12/2022
@@ -17,7 +23,7 @@
 
 **Breaking changes**
 
-* The license key is not required now to run the application with our widgets. However, you need to still have either Syncfusion commercial license or community license to use our widgets and libraries.
+* The license key is not required now to run the application with our widgets. However, you need to still have either Syncfusion<sup>&reg;</sup> commercial license or community license to use our widgets and libraries.
 
 ## [18.2.59] - 09/23/2020
 

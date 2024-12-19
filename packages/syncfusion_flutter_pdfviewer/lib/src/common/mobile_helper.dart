@@ -4,10 +4,10 @@ import 'dart:io';
 bool hasPrimaryFocus = false;
 
 /// Prevents default menu.
-void preventDefaultMenu() {
-  // ignore: avoid_returning_null_for_void
-  return null;
-}
+void preventDefaultMenu() {}
+
+/// Enabled default menu.
+void enableDefaultMenu() {}
 
 /// Gets platform type.
 String getPlatformType() {

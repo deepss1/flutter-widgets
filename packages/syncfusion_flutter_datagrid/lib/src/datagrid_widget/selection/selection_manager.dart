@@ -18,7 +18,7 @@ class SelectionManagerBase extends ChangeNotifier {
   final List<DataGridRow> _shiftSelectedRows = <DataGridRow>[];
 
   /// Holds the [DataGridStateDetails].
-  DataGridStateDetails? _dataGridStateDetails;
+  late DataGridStateDetails? _dataGridStateDetails;
 
   /// Processes the selection operation when tap a cell.
   void handleTap(RowColumnIndex rowColumnIndex) {}
@@ -594,7 +594,8 @@ class RowSelectionManager extends SelectionManagerBase {
     }
 
     if (dataGridConfiguration.isShiftKeyPressed &&
-        dataGridConfiguration.selectionMode == SelectionMode.multiple) {
+        dataGridConfiguration.selectionMode == SelectionMode.multiple &&
+        _pressedRowIndex >= 0) {
       _processShiftKeySelection(rowColumnIndex, recordIndex);
     }
   }
@@ -2023,8 +2024,11 @@ class CurrentCellManager {
         /// sorting or filtering is enabled.
         if (dataGridConfiguration.allowSorting ||
             dataGridConfiguration.allowFiltering) {
-          final DataGridRow row = effectiveRows(
-              dataGridConfiguration.source)[rowColumnIndex.rowIndex];
+          final DataGridRow? row = grid_helper.getDataRow(
+              dataGridConfiguration, rowColumnIndex.rowIndex);
+          if (row == null) {
+            return;
+          }
           updateDataSource(dataGridConfiguration.source);
           final int rowIndex =
               effectiveRows(dataGridConfiguration.source).indexOf(row);
@@ -2204,6 +2208,8 @@ void handleSelectionFromCheckbox(DataGridConfiguration dataGridConfiguration,
         if (oldValue == null || oldValue == false) {
           dataGridConfiguration.headerCheckboxState = true;
           dataCell.updateColumn();
+          rowSelectionManager._shiftSelectedRows.clear();
+          rowSelectionManager._pressedRowIndex = -1;
           rowSelectionManager._processSelectedAll();
         } else if (oldValue) {
           dataGridConfiguration.headerCheckboxState = false;
@@ -2217,6 +2223,8 @@ void handleSelectionFromCheckbox(DataGridConfiguration dataGridConfiguration,
               rowSelectionManager._selectedRows.toList();
           if (rowSelectionManager._raiseSelectionChanging(
               newItems: <DataGridRow>[], oldItems: oldSelectedItems)) {
+            rowSelectionManager._shiftSelectedRows.clear();
+            rowSelectionManager._pressedRowIndex = -1;
             rowSelectionManager._clearSelectedRows(dataGridConfiguration);
             rowSelectionManager._refreshCheckboxSelection();
             rowSelectionManager._raiseSelectionChanged(
