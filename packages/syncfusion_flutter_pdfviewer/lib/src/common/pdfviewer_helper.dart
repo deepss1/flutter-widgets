@@ -10,7 +10,8 @@ import 'mobile_helper.dart'
     as helper;
 
 /// Indicates whether the current environment is running in Desktop
-bool kIsDesktop = kIsWeb || Platform.isMacOS || Platform.isWindows;
+bool kIsDesktop =
+    kIsWeb || Platform.isMacOS || Platform.isWindows || Platform.isLinux;
 
 /// Indicates whether the current environment is running in macOS
 bool kIsMacOS = helper.getPlatformType() == 'macos';
@@ -145,7 +146,7 @@ enum Navigation {
   lastPage,
 
   /// Navigates to previous page
-  previousPage
+  previousPage,
 }
 
 /// The [PdfColor] extension for [Color].
@@ -157,32 +158,33 @@ extension PdfColorExtension on PdfColor {
 /// The [Color] extension.
 extension MaterialColorExtension on Color {
   /// Converts the [Color] to [PdfColor].
-  PdfColor get pdfColor => PdfColor(red, green, blue);
+  PdfColor get pdfColor =>
+      PdfColor((r * 255).round(), (g * 255).round(), (b * 255).round());
 
   /// Converts the [Color] to a lighter color based on the given factor.
   Color getLightenColor(double factor) {
     factor = factor.clamp(-1.0, 1.0);
 
-    double r = red / 255.0;
-    double g = green / 255.0;
-    double b = blue / 255.0;
+    double red = r;
+    double green = g;
+    double blue = b;
 
     if (factor < 0) {
       factor += 1;
-      r *= factor;
-      g *= factor;
-      b *= factor;
+      red *= factor;
+      green *= factor;
+      blue *= factor;
     } else {
-      r = (1 - r) * factor + r;
-      g = (1 - g) * factor + g;
-      b = (1 - b) * factor + b;
+      red = (1 - red) * factor + red;
+      green = (1 - green) * factor + green;
+      blue = (1 - blue) * factor + blue;
     }
 
     return Color.fromRGBO(
-      (r * 255).round(),
-      (g * 255).round(),
-      (b * 255).round(),
-      opacity,
+      (red * 255).round(),
+      (green * 255).round(),
+      (blue * 255).round(),
+      a,
     );
   }
 }

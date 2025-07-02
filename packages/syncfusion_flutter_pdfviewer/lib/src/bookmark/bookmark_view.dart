@@ -78,9 +78,10 @@ class BookmarkViewControllerState extends State<BookmarkView> {
   void didChangeDependencies() {
     _useMaterial3 = Theme.of(context).useMaterial3;
     _pdfViewerThemeData = SfPdfViewerTheme.of(context);
-    _effectiveThemeData = Theme.of(context).useMaterial3
-        ? SfPdfViewerThemeDataM3(context)
-        : SfPdfViewerThemeDataM2(context);
+    _effectiveThemeData =
+        Theme.of(context).useMaterial3
+            ? SfPdfViewerThemeDataM3(context)
+            : SfPdfViewerThemeDataM2(context);
     _localizations = SfLocalizations.of(context);
     super.didChangeDependencies();
   }
@@ -145,8 +146,9 @@ class BookmarkViewControllerState extends State<BookmarkView> {
   void _findDevice(BuildContext context) {
     _totalWidth = MediaQuery.of(context).size.width;
     final Size size = MediaQuery.of(context).size;
-    final double diagonal =
-        sqrt((size.width * size.width) + (size.height * size.height));
+    final double diagonal = sqrt(
+      (size.width * size.width) + (size.height * size.height),
+    );
     if (kIsDesktop && !(diagonal < _kPdfStandardDiagonalOffset)) {
       _isTablet = true;
     } else {
@@ -179,20 +181,22 @@ class BookmarkViewControllerState extends State<BookmarkView> {
   List<BookmarkItem> _populateBookmarkList() {
     _bookmarkList?.clear();
     if (_isExpanded) {
-      _bookmarkList?.add(BookmarkItem(
-        title: _childBookmark!.title,
-        isBackIconVisible: true,
-        textDirection: widget.textDirection,
-        textPosition: _kPdfSubBookmarkTitlePosition,
-        onBackPressed: _handleBackPress,
-        isMobileWebView: !_isTablet,
-        onNavigate: () {
-          widget.controller.jumpToBookmark(_childBookmark!);
-          _handleClose();
-        },
-        isBorderEnabled: true,
-        onExpandPressed: () {},
-      ));
+      _bookmarkList?.add(
+        BookmarkItem(
+          title: _childBookmark!.title,
+          isBackIconVisible: true,
+          textDirection: widget.textDirection,
+          textPosition: _kPdfSubBookmarkTitlePosition,
+          onBackPressed: _handleBackPress,
+          isMobileWebView: !_isTablet,
+          onNavigate: () {
+            widget.controller.jumpToBookmark(_childBookmark!);
+            _handleClose();
+          },
+          isBorderEnabled: true,
+          onExpandPressed: () {},
+        ),
+      );
     }
     final int bookmarkListCount =
         _isExpanded ? _childBookmark!.count : _bookmarkBase!.count;
@@ -201,9 +205,10 @@ class BookmarkViewControllerState extends State<BookmarkView> {
         title: _isExpanded ? _childBookmark![i].title : _bookmarkBase![i].title,
         isMobileWebView: !_isTablet,
         textDirection: widget.textDirection,
-        isExpandIconVisible: _isExpanded
-            ? _childBookmark![i].count != 0
-            : _bookmarkBase![i].count != 0,
+        isExpandIconVisible:
+            _isExpanded
+                ? _childBookmark![i].count != 0
+                : _bookmarkBase![i].count != 0,
         onNavigate: () {
           final PdfBookmark bookmark =
               _isExpanded ? _childBookmark![i] : _bookmarkBase![i];
@@ -237,82 +242,98 @@ class BookmarkViewControllerState extends State<BookmarkView> {
     }
     return Visibility(
       visible: showBookmark,
-      child: Stack(children: <Widget>[
-        Visibility(
-          visible: _isTablet,
-          child: GestureDetector(
-            onTap: _handleClose,
-            child: Container(
-              color: Colors.black.withOpacity(0.3),
+      child: Stack(
+        children: <Widget>[
+          Visibility(
+            visible: _isTablet,
+            child: GestureDetector(
+              onTap: _handleClose,
+              child: Container(color: Colors.black.withValues(alpha: 0.3)),
             ),
           ),
-        ),
-        Align(
-          alignment: _isTablet ? Alignment.topRight : Alignment.center,
-          child: Container(
-            decoration: BoxDecoration(
-                boxShadow: _useMaterial3
-                    ? const [
-                        BoxShadow(
-                          color: Color(0x4D000000),
-                          offset: Offset(0, 1),
-                          blurRadius: 3,
-                        ),
-                        BoxShadow(
-                          color: Color(0x26000000),
-                          offset: Offset(0, 4),
-                          blurRadius: 8,
-                          spreadRadius: 3,
-                        ),
-                      ]
-                    : null,
-                color: _pdfViewerThemeData!
-                        .bookmarkViewStyle?.backgroundColor ??
+          Align(
+            alignment: _isTablet ? Alignment.topRight : Alignment.center,
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow:
+                    _useMaterial3
+                        ? const [
+                          BoxShadow(
+                            color: Color(0x4D000000),
+                            offset: Offset(0, 1),
+                            blurRadius: 3,
+                          ),
+                          BoxShadow(
+                            color: Color(0x26000000),
+                            offset: Offset(0, 4),
+                            blurRadius: 8,
+                            spreadRadius: 3,
+                          ),
+                        ]
+                        : null,
+                color:
+                    _pdfViewerThemeData!.bookmarkViewStyle?.backgroundColor ??
                     _effectiveThemeData!.bookmarkViewStyle?.backgroundColor ??
                     (Theme.of(context).useMaterial3
                         ? Theme.of(context).colorScheme.surface
                         : (Theme.of(context).colorScheme.brightness ==
                                 Brightness.light
                             ? Colors.white
-                            : const Color(0xFF212121)))),
-            width: _isTablet ? _kPdfTabletBookmarkWidth : _totalWidth,
-            child: Column(children: <Widget>[
-              BookmarkToolbar(_handleClose, widget.textDirection),
-              Expanded(
-                child: hasBookmark
-                    ? _useMaterial3
-                        ? BookmarkTree(
-                            pdfDocument: widget.pdfDocument,
-                            onNavigate: _handleTap,
-                            key: _bookmarkTreeKey,
-                            textDirection: widget.textDirection,
-                          )
-                        : ListView.builder(
-                            itemCount: _listCount,
-                            itemBuilder: (BuildContext context, int index) {
-                              return _bookmarkList![index];
-                            },
-                          )
-                    : Center(
-                        child: Text(_localizations!.pdfNoBookmarksLabel,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 14,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? Colors.black.withOpacity(0.87)
-                                      : Colors.white.withOpacity(0.87),
-                                )
-                                .merge(_pdfViewerThemeData!
-                                    .bookmarkViewStyle?.titleTextStyle)),
-                      ),
+                            : const Color(0xFF212121))),
               ),
-            ]),
+              width: _isTablet ? _kPdfTabletBookmarkWidth : _totalWidth,
+              child: Column(
+                children: <Widget>[
+                  BookmarkToolbar(_handleClose, widget.textDirection),
+                  Expanded(
+                    child:
+                        hasBookmark
+                            ? _useMaterial3
+                                ? BookmarkTree(
+                                  pdfDocument: widget.pdfDocument,
+                                  onNavigate: _handleTap,
+                                  key: _bookmarkTreeKey,
+                                  textDirection: widget.textDirection,
+                                )
+                                : ListView.builder(
+                                  itemCount: _listCount,
+                                  itemBuilder: (
+                                    BuildContext context,
+                                    int index,
+                                  ) {
+                                    return _bookmarkList![index];
+                                  },
+                                )
+                            : Center(
+                              child: Text(
+                                _localizations!.pdfNoBookmarksLabel,
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(
+                                      fontSize: 14,
+                                      color:
+                                          Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Colors.black.withValues(
+                                                alpha: 0.87,
+                                              )
+                                              : Colors.white.withValues(
+                                                alpha: 0.87,
+                                              ),
+                                    )
+                                    .merge(
+                                      _pdfViewerThemeData!
+                                          .bookmarkViewStyle
+                                          ?.titleTextStyle,
+                                    ),
+                              ),
+                            ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
@@ -346,12 +367,12 @@ class BookmarkNode {
 /// A widget that displays the bookmark tree.
 class BookmarkTree extends StatefulWidget {
   /// Creates a widget that displays the bookmark tree.
-  const BookmarkTree(
-      {required this.pdfDocument,
-      required this.onNavigate,
-      required this.textDirection,
-      Key? key})
-      : super(key: key);
+  const BookmarkTree({
+    required this.pdfDocument,
+    required this.onNavigate,
+    required this.textDirection,
+    Key? key,
+  }) : super(key: key);
 
   /// The pdf document.
   final PdfDocument? pdfDocument;
@@ -375,9 +396,10 @@ class BookmarkTreeState extends State<BookmarkTree> {
   @override
   void didChangeDependencies() {
     _pdfViewerThemeData = SfPdfViewerTheme.of(context);
-    _effectiveThemeData = Theme.of(context).useMaterial3
-        ? SfPdfViewerThemeDataM3(context)
-        : SfPdfViewerThemeDataM2(context);
+    _effectiveThemeData =
+        Theme.of(context).useMaterial3
+            ? SfPdfViewerThemeDataM3(context)
+            : SfPdfViewerThemeDataM2(context);
     super.didChangeDependencies();
   }
 
@@ -467,9 +489,10 @@ class BookmarkTreeState extends State<BookmarkTree> {
   Widget _bookMarkItems(PdfBookmark bookmark) {
     final icon = Icon(
       Icons.expand_more,
-      color: _pdfViewerThemeData!.bookmarkViewStyle?.navigationIconColor ??
+      color:
+          _pdfViewerThemeData!.bookmarkViewStyle?.navigationIconColor ??
           _effectiveThemeData!.bookmarkViewStyle?.navigationIconColor ??
-          Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
+          Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.54),
       size: 18,
     );
     return ListView.builder(
@@ -478,39 +501,41 @@ class BookmarkTreeState extends State<BookmarkTree> {
       itemBuilder: (context, index) {
         final node = bookmarkList[index];
         return Material(
-          color: _pdfViewerThemeData!.bookmarkViewStyle?.backgroundColor ??
+          color:
+              _pdfViewerThemeData!.bookmarkViewStyle?.backgroundColor ??
               _effectiveThemeData!.bookmarkViewStyle?.backgroundColor ??
               Theme.of(context).colorScheme.surface,
           child: InkWell(
-            splashColor: _pdfViewerThemeData!
-                    .bookmarkViewStyle?.selectionColor! ??
+            splashColor:
+                _pdfViewerThemeData!.bookmarkViewStyle?.selectionColor! ??
                 _effectiveThemeData!.bookmarkViewStyle?.selectionColor! ??
                 ((Theme.of(context).colorScheme.brightness == Brightness.light)
                     ? const Color.fromRGBO(0, 0, 0, 0.08)
                     : const Color.fromRGBO(255, 255, 255, 0.12)),
-            hoverColor: Theme.of(context).useMaterial3
-                ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
-                : const Color(0xFF000000).withOpacity(0.04),
+            hoverColor:
+                Theme.of(context).useMaterial3
+                    ? Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.08)
+                    : const Color(0xFF000000).withValues(alpha: 0.04),
             onTap: () {
               if (node.pdfBookmark != null) {
                 _handleTap(node.pdfBookmark!);
               }
             },
             child: Padding(
-              padding: widget.textDirection == TextDirection.rtl
-                  ? EdgeInsets.only(
-                      right: node.level * 25.0,
-                    )
-                  : EdgeInsets.only(
-                      left: node.level * 25.0,
-                    ),
+              padding:
+                  widget.textDirection == TextDirection.rtl
+                      ? EdgeInsets.only(right: node.level * 25.0)
+                      : EdgeInsets.only(left: node.level * 25.0),
               child: Row(
                 children: [
                   if (node.children.isNotEmpty)
                     Padding(
-                      padding: widget.textDirection == TextDirection.rtl
-                          ? const EdgeInsets.only(right: 16.0)
-                          : const EdgeInsets.only(left: 16.0),
+                      padding:
+                          widget.textDirection == TextDirection.rtl
+                              ? const EdgeInsets.only(right: 16.0)
+                              : const EdgeInsets.only(left: 16.0),
                       child: GestureDetector(
                         onTap: () {
                           _toggleExpand(node, index);
@@ -518,11 +543,12 @@ class BookmarkTreeState extends State<BookmarkTree> {
                         child: SizedBox(
                           height: 40,
                           child: RotatedBox(
-                            quarterTurns: !node.isExpanded
-                                ? widget.textDirection == TextDirection.rtl
-                                    ? 1
-                                    : 3
-                                : 0,
+                            quarterTurns:
+                                !node.isExpanded
+                                    ? widget.textDirection == TextDirection.rtl
+                                        ? 1
+                                        : 3
+                                    : 0,
                             child: icon,
                           ),
                         ),
@@ -533,31 +559,35 @@ class BookmarkTreeState extends State<BookmarkTree> {
                     child: SizedBox(
                       height: 40,
                       child: Padding(
-                        padding: (!node.children.isNotEmpty)
-                            ? widget.textDirection == TextDirection.rtl
-                                ? const EdgeInsets.only(right: 45.0)
-                                : const EdgeInsets.only(left: 45.0)
-                            : EdgeInsets.zero,
+                        padding:
+                            (!node.children.isNotEmpty)
+                                ? widget.textDirection == TextDirection.rtl
+                                    ? const EdgeInsets.only(right: 45.0)
+                                    : const EdgeInsets.only(left: 45.0)
+                                : EdgeInsets.zero,
                         child: Align(
-                          alignment: widget.textDirection == TextDirection.rtl
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
+                          alignment:
+                              widget.textDirection == TextDirection.rtl
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
                           child: Text(
                             node.title,
-                            textAlign: widget.textDirection == TextDirection.rtl
-                                ? TextAlign.right
-                                : TextAlign.left,
+                            textAlign:
+                                widget.textDirection == TextDirection.rtl
+                                    ? TextAlign.right
+                                    : TextAlign.left,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
+                            style: Theme.of(context).textTheme.bodyMedium!
                                 .copyWith(
                                   fontSize: 14,
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
                                 )
-                                .merge(_pdfViewerThemeData!
-                                    .bookmarkViewStyle?.titleTextStyle),
+                                .merge(
+                                  _pdfViewerThemeData!
+                                      .bookmarkViewStyle
+                                      ?.titleTextStyle,
+                                ),
                           ),
                         ),
                       ),

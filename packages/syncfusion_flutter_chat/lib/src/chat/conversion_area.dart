@@ -116,6 +116,7 @@ class _ChatConversationAreaState extends ConversationAreaState<ChatMessage> {
       index: index,
       maxWidth: width,
       widthFactor: settings.widthFactor,
+      messages: widget.messages,
       message: message,
       isOutgoing: isFromCurrentUser,
       isFirstInGroup: isLeadMessage,
@@ -123,8 +124,8 @@ class _ChatConversationAreaState extends ConversationAreaState<ChatMessage> {
       avatarBuilder: widget.bubbleAvatarBuilder,
       contentBuilder: widget.bubbleContentBuilder,
       footerBuilder: widget.bubbleFooterBuilder,
-      showUserAvatar: settings.showUserAvatar,
-      showUserName: settings.showUserName,
+      showUserAvatar: settings.showAuthorAvatar,
+      showUserName: settings.showAuthorName,
       showTimestamp: settings.showTimestamp,
       timestampFormat: settings.timestampFormat,
       alignment: effectiveBubbleAlignment(isFromCurrentUser),
@@ -136,9 +137,11 @@ class _ChatConversationAreaState extends ConversationAreaState<ChatMessage> {
       secondaryHeaderTextStyle: secondaryHeaderTextStyle,
       suggestionItemTextStyle: widget.suggestionItemTextStyle,
       padding: settings.padding ?? EdgeInsets.zero,
-      contentPadding: settings.contentPadding ?? EdgeInsets.zero,
-      avatarPadding:
-          effectiveAvatarPadding(isFromCurrentUser, settings.avatarPadding),
+      contentPadding: settings.padding ?? EdgeInsets.zero,
+      avatarPadding: effectiveAvatarPadding(
+        isFromCurrentUser,
+        settings.avatarPadding,
+      ),
       headerPadding: settings.headerPadding,
       footerPadding: settings.footerPadding,
       avatarSize: settings.avatarSize,
@@ -149,8 +152,10 @@ class _ChatConversationAreaState extends ConversationAreaState<ChatMessage> {
       onSuggestionItemSelected: widget.onSuggestionItemSelected,
       themeData: widget.themeData,
       textDirection: textDirection,
-      alignmentDirection:
-          alignmentBasedTextDirection(isFromCurrentUser, textDirection),
+      alignmentDirection: alignmentBasedTextDirection(
+        isFromCurrentUser,
+        textDirection,
+      ),
     );
 
     if (index == 0 &&
@@ -170,10 +175,7 @@ class _ChatConversationAreaState extends ConversationAreaState<ChatMessage> {
       );
     }
 
-    return KeyedSubtree(
-      key: IndexedValueKey(index),
-      child: result,
-    );
+    return KeyedSubtree(key: IndexedValueKey(index), child: result);
   }
 }
 
@@ -182,6 +184,7 @@ class _ChatMessageBubble extends MessageBubble<ChatMessage> {
     required super.index,
     required super.maxWidth,
     super.widthFactor = 0.8,
+    required this.messages,
     required super.message,
     required super.isOutgoing,
     required super.isFirstInGroup,
@@ -202,11 +205,15 @@ class _ChatMessageBubble extends MessageBubble<ChatMessage> {
     super.secondaryHeaderTextStyle,
     super.suggestionItemTextStyle,
     super.padding = const EdgeInsets.all(2.0),
-    super.contentPadding =
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+    super.contentPadding = const EdgeInsets.symmetric(
+      horizontal: 16.0,
+      vertical: 8.0,
+    ),
     required super.avatarPadding,
-    super.headerPadding =
-        const EdgeInsetsDirectional.only(top: 14.0, bottom: 4.0),
+    super.headerPadding = const EdgeInsetsDirectional.only(
+      top: 14.0,
+      bottom: 4.0,
+    ),
     super.footerPadding = const EdgeInsetsDirectional.only(top: 4.0),
     super.avatarSize = const Size.square(32.0),
     super.suggestionBackgroundColor,
@@ -218,7 +225,7 @@ class _ChatMessageBubble extends MessageBubble<ChatMessage> {
     required super.textDirection,
     required super.alignmentDirection,
   });
-
+  final List<ChatMessage> messages;
   final ChatSuggestionItemSelectedCallback? onSuggestionItemSelected;
 
   @override
@@ -228,6 +235,36 @@ class _ChatMessageBubble extends MessageBubble<ChatMessage> {
 class _ChatMessageBubbleState extends MessageBubbleState<ChatMessage> {
   @override
   _ChatMessageBubble get widget => super.widget as _ChatMessageBubble;
+
+  @override
+  EdgeInsets effectiveMessagePadding() {
+    final int messageCount = widget.messages.length;
+    final ChatMessage current = widget.message;
+    final ChatMessage? previous =
+        widget.index - 1 >= 0 ? widget.messages[widget.index - 1] : null;
+    final ChatMessage? next =
+        widget.index + 1 < messageCount
+            ? widget.messages[widget.index + 1]
+            : null;
+
+    final EdgeInsets padding = super.effectiveMessagePadding();
+    double top = padding.top;
+    double bottom = padding.bottom;
+    if (previous != null && current.author.id == previous.author.id) {
+      top = 2.0;
+    }
+
+    if (next != null && current.author.id == next.author.id) {
+      bottom = 2.0;
+    }
+
+    return EdgeInsets.only(
+      top: top,
+      bottom: bottom,
+      left: padding.left,
+      right: padding.right,
+    );
+  }
 
   @override
   Widget? buildDefaultHeader() {
@@ -302,6 +339,7 @@ class _ChatMessageBubbleState extends MessageBubbleState<ChatMessage> {
     if (widget.message.author.avatar != null) {
       result = CircleAvatar(
         backgroundImage: widget.message.author.avatar,
+        backgroundColor: widget.avatarBackgroundColor,
       );
     } else {
       if (widget.message.author.name.isNotEmpty) {
@@ -352,7 +390,7 @@ class _ChatMessageBubbleState extends MessageBubbleState<ChatMessage> {
           settings.backgroundColor ?? widget.suggestionBackgroundColor,
       itemBackgroundColor:
           settings.itemBackgroundColor ?? widget.suggestionItemBackgroundColor,
-      padding: settings.padding.resolve(widget.alignmentDirection),
+      padding: settings.margin.resolve(widget.alignmentDirection),
       itemPadding: settings.itemPadding.resolve(widget.alignmentDirection),
       onSuggestionItemSelected: widget.onSuggestionItemSelected,
     );
@@ -446,10 +484,7 @@ class _ChatSuggestionItemState extends SuggestionItemState<ChatMessage> {
   _ChatSuggestionItem get widget => super.widget as _ChatSuggestionItem;
 
   @override
-  void invokeSelectedCallback(
-    int suggestionIndex, {
-    required bool selected,
-  }) {
+  void invokeSelectedCallback(int suggestionIndex, {required bool selected}) {
     final ChatMessageSuggestion suggestion =
         widget.message.suggestions![suggestionIndex];
     widget.onSuggestionItemSelected?.call(

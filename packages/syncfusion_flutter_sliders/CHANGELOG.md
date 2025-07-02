@@ -1,4 +1,61 @@
-## [28.1.29] - 12/12/2024
+## Unreleased
+
+**General**
+
+*  The compatible version of our Flutter sliders widget has been updated to Flutter SDK 3.32.0.
+
+## Slider
+
+**Features**
+
+* #FR49315 - Now, the Slider labels can be customized individually using the `onLabelCreated` property.
+* #FR66359 - Now, the Slider support keyboard navigation accessibility using the Left, Right, Up, Down arrow keys, and the Tab key.
+
+## Range Slider
+
+**Features**
+
+* #FR49315 - Now, the Range Slider labels can be customized individually using the `onLabelCreated` property.
+* #FR66359 - Now, the Range Slider support keyboard navigation accessibility using the Left, Right, Up, Down arrow keys, and the Tab key.
+
+## Range Selector
+
+**Features**
+
+* #FR49315 - Now, the Range Selector labels can be customized individually using the `onLabelCreated` property.
+* #FR66359 - Now, the Range Selector support keyboard navigation accessibility using the Left, Right, Up, Down arrow keys, and the Tab key.
+
+### Breaking changes
+
+The `labelFormatterCallback` property has been deprecated. Use `onLabelCreated` instead to customize the label's format and style.
+
+## [29.1.39] - 04/22/2025
+
+**General**
+
+* The minimum Dart version has been updated to 3.7.
+
+## [29.1.33] - 03/25/2025
+
+**General**
+
+*  The compatible version of our Flutter sliders widget has been updated to Flutter SDK 3.29.0.
+*  The Syncfusion<sup>&reg;</sup> Flutter sliders example sample have been updated to support [kotlin build scripts](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply) in Android platform.
+*  The Syncfusion<sup>&reg;</sup> Flutter sliders example sample have been updated to support [Swift package manager](https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers) in macOS and iOS platforms.
+
+## [28.2.7] - 02/25/2025
+
+**General**
+
+* The minimum Dart version of our Flutter widgets has been updated to 3.4 from 3.3.
+
+## [28.1.36] - 12/24/2024
+
+**General**
+
+* The compatible version of our Flutter sliders widget has been updated to Flutter SDK 3.27.0.
+
+## [28.1.33] - 12/12/2024
 
 **General**
 

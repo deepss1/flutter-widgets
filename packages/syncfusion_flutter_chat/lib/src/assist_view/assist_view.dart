@@ -37,19 +37,19 @@ import 'settings.dart';
 /// the chat. This is particularly useful for presenting users with a relevant
 /// or visually appealing message indicating that the conversation is
 /// currently empty.
-/// * **Bubble Header Builder**: The [SfAIAssistView.bubbleHeaderBuilder] allows
+/// * **Bubble Header Builder**: The [SfAIAssistView.messageHeaderBuilder] allows
 /// you to specify a custom widget to display as a header for each chat bubble.
 /// This is particularly useful for displaying additional information such as
 /// the sender's name and the timestamp associated with each message.
-/// * **Bubble Avatar Builder**: The [SfAIAssistView.bubbleAvatarBuilder] allows
+/// * **Bubble Avatar Builder**: The [SfAIAssistView.messageAvatarBuilder] allows
 /// you to specify a custom widget to display as an avatar within each
 /// chat bubble. This feature is especially useful for showing user avatars or
 /// profile pictures within the chat interface.
-/// * **Bubble Content Builder**: The [SfAIAssistView.bubbleContentBuilder]
+/// * **Bubble Content Builder**: The [SfAIAssistView.messageContentBuilder]
 /// allows you to specify a custom widget to display as the content within each
 /// chat bubble. This is useful for customizing how the message content is
 /// presented, such as using different background colors, borders, or padding.
-/// * **Bubble Footer Builder**: The [SfAIAssistView.bubbleFooterBuilder] allows
+/// * **Bubble Footer Builder**: The [SfAIAssistView.messageFooterBuilder] allows
 /// you to specify a custom widget that will be displayed as a footer within
 /// each chat bubble. This is particularly useful for displaying timestamps or
 /// other additional information related to the message.
@@ -85,17 +85,17 @@ class SfAIAssistView extends StatefulWidget {
     this.composer = const AssistComposer(),
     this.actionButton,
     this.placeholderBuilder,
-    this.bubbleHeaderBuilder,
-    this.bubbleAvatarBuilder,
-    this.bubbleContentBuilder,
-    this.bubbleFooterBuilder,
+    this.messageHeaderBuilder,
+    this.messageAvatarBuilder,
+    this.messageContentBuilder,
+    this.messageFooterBuilder,
     this.responseLoadingBuilder,
     this.placeholderBehavior = AssistPlaceholderBehavior.scrollWithMessage,
-    this.bubbleAlignment = AssistBubbleAlignment.auto,
+    this.messageAlignment = AssistMessageAlignment.auto,
     this.onSuggestionItemSelected,
-    this.onBubbleToolbarItemSelected,
-    this.requestBubbleSettings = const AssistBubbleSettings(),
-    this.responseBubbleSettings = const AssistBubbleSettings(),
+    this.onToolbarItemSelected,
+    this.requestMessageSettings = const AssistMessageSettings(),
+    this.responseMessageSettings = const AssistMessageSettings(),
     this.responseToolbarSettings = const AssistMessageToolbarSettings(),
   });
 
@@ -271,7 +271,7 @@ class SfAIAssistView extends StatefulWidget {
   /// A callback function creates a widget to serve as a header for each
   /// message bubble.
   ///
-  /// The [bubbleHeaderBuilder] allows you to specify a custom widget that will
+  /// The [messageHeaderBuilder] allows you to specify a custom widget that will
   /// be shown as a header within each chat bubble. This is particularly useful
   /// for displaying additional information such as the sender's name and
   /// timestamp associated with each message.
@@ -286,7 +286,7 @@ class SfAIAssistView extends StatefulWidget {
   /// @override
   /// Widget build(BuildContext context) {
   ///   return SfAIAssistView(
-  ///     bubbleHeaderBuilder:
+  ///     messageHeaderBuilder:
   ///         (BuildContext context, int index, AssistMessage message) {
   ///       return Padding(
   ///         padding: const EdgeInsets.all(8.0),
@@ -299,12 +299,12 @@ class SfAIAssistView extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final AssistWidgetBuilder? bubbleHeaderBuilder;
+  final AssistWidgetBuilder? messageHeaderBuilder;
 
   /// A callback function creates a widget to display as an avatar within each
   /// message bubble.
   ///
-  /// The [bubbleAvatarBuilder] allows you to specify a custom widget that will
+  /// The [messageAvatarBuilder] allows you to specify a custom widget that will
   /// be shown as an avatar within each message bubble. This is particularly
   /// useful for displaying user avatars or profile pictures in the chat
   /// interface.
@@ -319,7 +319,7 @@ class SfAIAssistView extends StatefulWidget {
   /// @override
   /// Widget build(BuildContext context) {
   ///   return SfAIAssistView(
-  ///     bubbleAvatarBuilder:
+  ///     messageAvatarBuilder:
   ///         (BuildContext context, int index, AssistMessage message) {
   ///       return CircleAvatar(
   ///         backgroundImage: NetworkImage(
@@ -332,12 +332,12 @@ class SfAIAssistView extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final AssistWidgetBuilder? bubbleAvatarBuilder;
+  final AssistWidgetBuilder? messageAvatarBuilder;
 
   /// A callback function creates a widget to display as the content of each
   /// message bubble.
   ///
-  /// The [bubbleContentBuilder] allows you to specify a custom widget to
+  /// The [messageContentBuilder] allows you to specify a custom widget to
   /// display as the content within each message bubble. This is useful for
   /// customizing how the message content is presented, such as using different
   /// background colors, borders, or padding.
@@ -352,7 +352,7 @@ class SfAIAssistView extends StatefulWidget {
   /// @override
   /// Widget build(BuildContext context) {
   ///   return SfAIAssistView(
-  ///     bubbleContentBuilder:
+  ///     messageContentBuilder:
   ///         (BuildContext context, int index, AssistMessage message) {
   ///       return Padding(
   ///         padding: const EdgeInsets.all(8.0),
@@ -362,12 +362,12 @@ class SfAIAssistView extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final AssistWidgetBuilder? bubbleContentBuilder;
+  final AssistWidgetBuilder? messageContentBuilder;
 
   /// A callback function creates a widget to display as a footer within each
   /// message bubble.
   ///
-  /// The [bubbleFooterBuilder] allows you to specify a custom widget that will
+  /// The [messageFooterBuilder] allows you to specify a custom widget that will
   /// be shown as a footer within each message bubble. This is particularly useful
   /// for displaying timestamps or other additional information related to the
   /// message.
@@ -382,7 +382,7 @@ class SfAIAssistView extends StatefulWidget {
   /// @override
   /// Widget build(BuildContext context) {
   ///   return SfAIAssistView(
-  ///     bubbleFooterBuilder:
+  ///     messageFooterBuilder:
   ///         (BuildContext context, int index, AssistMessage message) {
   ///       return Row(
   ///         children: [
@@ -404,7 +404,7 @@ class SfAIAssistView extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final AssistWidgetBuilder? bubbleFooterBuilder;
+  final AssistWidgetBuilder? messageFooterBuilder;
 
   /// A callback function creates a widget to display as a loading indicator
   /// while waiting for a response.
@@ -451,17 +451,17 @@ class SfAIAssistView extends StatefulWidget {
 
   /// Determines the alignment of the message bubbles.
   ///
-  /// Defaults to [AssistBubbleAlignment.auto].
+  /// Defaults to [AssistMessageAlignment.auto].
   ///
   /// ```dart
   /// @override
   /// Widget build(BuildContext context) {
   ///   return SfAIAssistView(
-  ///     bubbleAlignment: AssistBubbleAlignment.start,
+  ///     messageAlignment: AssistMessageAlignment.start,
   ///   );
   /// }
   /// ```
-  final AssistBubbleAlignment bubbleAlignment;
+  final AssistMessageAlignment messageAlignment;
 
   /// Called when the suggestion is selected.
   ///
@@ -491,12 +491,12 @@ class SfAIAssistView extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final AssistBubbleToolbarItemSelectedCallback? onBubbleToolbarItemSelected;
+  final AssistToolbarItemSelectedCallback? onToolbarItemSelected;
 
   /// Options for changing the appearance and behavior of
   /// request message bubble.
   ///
-  /// The [requestBubbleSettings] property allows you to configure how
+  /// The [requestMessageSettings] property allows you to configure how
   /// request chat bubbles are displayed. This includes customization options
   /// for the user's avatar, username, timestamp, content background color, and
   /// various padding and shape options.
@@ -505,10 +505,10 @@ class SfAIAssistView extends StatefulWidget {
   /// @override
   /// Widget build(BuildContext context) {
   ///   return SfAIAssistView(
-  ///     requestBubbleSettings: const AssistBubbleSettings(
-  ///       showUserName: true,
+  ///     requestMessageSettings: const AssistMessageSettings(
+  ///       showAuthorName: true,
   ///       showTimestamp: true,
-  ///       showUserAvatar: true,
+  ///       showAuthorAvatar: true,
   ///       widthFactor: 0.8,
   ///       avatarSize: Size.square(32.0),
   ///       headerPadding: EdgeInsetsDirectional.only(bottom: 3.0),
@@ -517,12 +517,12 @@ class SfAIAssistView extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final AssistBubbleSettings requestBubbleSettings;
+  final AssistMessageSettings requestMessageSettings;
 
   /// Options for changing the appearance and behavior of
   /// response message bubble.
   ///
-  /// The [responseBubbleSettings] property allows you to configure how
+  /// The [responseMessageSettings] property allows you to configure how
   /// response chat bubbles are displayed. This includes customization options
   /// for the user's avatar, username, timestamp, content background color, and
   /// various padding and shape options.
@@ -531,10 +531,10 @@ class SfAIAssistView extends StatefulWidget {
   /// @override
   /// Widget build(BuildContext context) {
   ///   return SfAIAssistView(
-  ///     responseBubbleSettings: const AssistBubbleSettings(
-  ///       showUserName: true,
+  ///     responseMessageSettings: const AssistMessageSettings(
+  ///       showAuthorName: true,
   ///       showTimestamp: true,
-  ///       showUserAvatar: true,
+  ///       showAuthorAvatar: true,
   ///       widthFactor: 0.8,
   ///       avatarSize: Size.square(32.0),
   ///       headerPadding: EdgeInsetsDirectional.only(bottom: 3.0),
@@ -543,7 +543,7 @@ class SfAIAssistView extends StatefulWidget {
   ///   );
   /// }
   /// ```
-  final AssistBubbleSettings responseBubbleSettings;
+  final AssistMessageSettings responseMessageSettings;
 
   /// Options for changing the appearance of the response message toolbar.
   ///
@@ -576,7 +576,7 @@ class SfAIAssistView extends StatefulWidget {
   ///           return Colors.lightBlue;
   ///         },
   ///       ),
-  ///       padding: const EdgeInsets.all(10),
+  ///       margin: const EdgeInsets.all(10),
   ///       itemPadding: const EdgeInsets.all(10),
   ///       spacing: 10,
   ///       runSpacing: 10,
@@ -591,20 +591,20 @@ class SfAIAssistView extends StatefulWidget {
 }
 
 class _SfAIAssistViewState extends State<SfAIAssistView> {
-  final AssistBubbleSettings _requestBubbleSettings =
-      const AssistBubbleSettings(
-    avatarPadding: EdgeInsetsDirectional.only(start: 16.0),
-    contentPadding: EdgeInsets.all(8.0),
-    padding: EdgeInsetsDirectional.only(bottom: 24.0),
-    showUserAvatar: true,
-  );
-  final AssistBubbleSettings _responseBubbleSettings =
-      const AssistBubbleSettings(
-    avatarPadding: EdgeInsetsDirectional.only(end: 16.0),
-    contentPadding: EdgeInsetsDirectional.symmetric(vertical: 8.0),
-    padding: EdgeInsetsDirectional.only(bottom: 24.0),
-    showUserAvatar: true,
-  );
+  final AssistMessageSettings _requestMessageSettings =
+      const AssistMessageSettings(
+        avatarPadding: EdgeInsetsDirectional.only(start: 16.0),
+        padding: EdgeInsets.all(8.0),
+        margin: EdgeInsetsDirectional.only(top: 24.0),
+        showAuthorAvatar: true,
+      );
+  final AssistMessageSettings _responseMessageSettings =
+      const AssistMessageSettings(
+        avatarPadding: EdgeInsetsDirectional.only(end: 16.0),
+        padding: EdgeInsetsDirectional.symmetric(vertical: 8.0),
+        margin: EdgeInsetsDirectional.only(top: 24.0),
+        showAuthorAvatar: true,
+      );
   final InputBorder _defaultInputDecorBorder = const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(42.0)),
   );
@@ -621,119 +621,138 @@ class _SfAIAssistViewState extends State<SfAIAssistView> {
 
   void _updateThemeData(BuildContext context) {
     _themeData = Theme.of(context);
-    _defaultThemeData = _themeData.useMaterial3
-        ? AIAssistViewM3ThemeData(context)
-        : AIAssistViewM2ThemeData(context);
+    _defaultThemeData =
+        _themeData.useMaterial3
+            ? AIAssistViewM3ThemeData(context)
+            : AIAssistViewM2ThemeData(context);
     _userDefinedThemeData = SfAIAssistViewTheme.of(context);
     final TextStyle contentBaseTextStyle = _themeData.textTheme.bodyMedium!
         .copyWith(color: _themeData.colorScheme.onSurface);
     final TextStyle primaryHeaderBaseTextStyle = _themeData
-        .textTheme.labelMedium!
+        .textTheme
+        .labelMedium!
         .copyWith(color: _themeData.colorScheme.primary);
     final TextStyle secondaryHeaderBaseTextStyle = _themeData
-        .textTheme.labelSmall!
+        .textTheme
+        .labelSmall!
         .copyWith(color: _themeData.colorScheme.onSurfaceVariant);
 
     _effectiveAssistThemeData = _userDefinedThemeData.copyWith(
-      actionButtonForegroundColor: widget.actionButton?.foregroundColor ??
+      actionButtonForegroundColor:
+          widget.actionButton?.foregroundColor ??
           _userDefinedThemeData.actionButtonForegroundColor ??
           _defaultThemeData.actionButtonForegroundColor,
-      actionButtonBackgroundColor: widget.actionButton?.backgroundColor ??
+      actionButtonBackgroundColor:
+          widget.actionButton?.backgroundColor ??
           _userDefinedThemeData.actionButtonBackgroundColor ??
           _defaultThemeData.actionButtonBackgroundColor,
       actionButtonDisabledForegroundColor:
           _userDefinedThemeData.actionButtonDisabledForegroundColor ??
-              _defaultThemeData.actionButtonDisabledForegroundColor,
+          _defaultThemeData.actionButtonDisabledForegroundColor,
       actionButtonDisabledBackgroundColor:
           _userDefinedThemeData.actionButtonDisabledBackgroundColor ??
-              _defaultThemeData.actionButtonDisabledBackgroundColor,
-      actionButtonFocusColor: widget.actionButton?.focusColor ??
+          _defaultThemeData.actionButtonDisabledBackgroundColor,
+      actionButtonFocusColor:
+          widget.actionButton?.focusColor ??
           _userDefinedThemeData.actionButtonFocusColor ??
           _defaultThemeData.actionButtonFocusColor,
-      actionButtonHoverColor: widget.actionButton?.hoverColor ??
+      actionButtonHoverColor:
+          widget.actionButton?.hoverColor ??
           _userDefinedThemeData.actionButtonHoverColor ??
           _defaultThemeData.actionButtonHoverColor,
-      actionButtonSplashColor: widget.actionButton?.splashColor ??
+      actionButtonSplashColor:
+          widget.actionButton?.splashColor ??
           _userDefinedThemeData.actionButtonSplashColor ??
           _defaultThemeData.actionButtonSplashColor,
-      actionButtonElevation: widget.actionButton?.elevation ??
+      actionButtonElevation:
+          widget.actionButton?.elevation ??
           _userDefinedThemeData.actionButtonElevation,
-      actionButtonFocusElevation: widget.actionButton?.focusElevation ??
+      actionButtonFocusElevation:
+          widget.actionButton?.focusElevation ??
           _userDefinedThemeData.actionButtonFocusElevation,
-      actionButtonHoverElevation: widget.actionButton?.hoverElevation ??
+      actionButtonHoverElevation:
+          widget.actionButton?.hoverElevation ??
           _userDefinedThemeData.actionButtonHoverElevation,
-      actionButtonHighlightElevation: widget.actionButton?.highlightElevation ??
+      actionButtonHighlightElevation:
+          widget.actionButton?.highlightElevation ??
           _userDefinedThemeData.actionButtonHighlightElevation,
-      actionButtonMouseCursor: widget.actionButton?.mouseCursor ??
+      actionButtonMouseCursor:
+          widget.actionButton?.mouseCursor ??
           _userDefinedThemeData.actionButtonMouseCursor ??
           _defaultThemeData.actionButtonMouseCursor,
-      actionButtonShape: widget.actionButton?.shape ??
+      actionButtonShape:
+          widget.actionButton?.shape ??
           _userDefinedThemeData.actionButtonShape ??
           _defaultThemeData.actionButtonShape,
       requestAvatarBackgroundColor:
           _userDefinedThemeData.requestAvatarBackgroundColor ??
-              _defaultThemeData.requestAvatarBackgroundColor,
+          _defaultThemeData.requestAvatarBackgroundColor,
       responseAvatarBackgroundColor:
           _userDefinedThemeData.responseAvatarBackgroundColor ??
-              _defaultThemeData.responseAvatarBackgroundColor,
-      requestBubbleContentBackgroundColor:
-          widget.requestBubbleSettings.contentBackgroundColor ??
-              _userDefinedThemeData.requestBubbleContentBackgroundColor ??
-              _defaultThemeData.requestBubbleContentBackgroundColor,
-      responseBubbleContentBackgroundColor:
-          widget.responseBubbleSettings.contentBackgroundColor ??
-              _userDefinedThemeData.responseBubbleContentBackgroundColor ??
-              _defaultThemeData.responseBubbleContentBackgroundColor,
+          _defaultThemeData.responseAvatarBackgroundColor,
+      requestMessageBackgroundColor:
+          widget.requestMessageSettings.backgroundColor ??
+          _userDefinedThemeData.requestMessageBackgroundColor ??
+          _defaultThemeData.requestMessageBackgroundColor,
+      responseMessageBackgroundColor:
+          widget.responseMessageSettings.backgroundColor ??
+          _userDefinedThemeData.responseMessageBackgroundColor ??
+          _defaultThemeData.responseMessageBackgroundColor,
       editorTextStyle: contentBaseTextStyle
           .merge(_userDefinedThemeData.editorTextStyle)
           .merge(widget.composer?.textStyle),
       requestContentTextStyle: contentBaseTextStyle
           .merge(_userDefinedThemeData.requestContentTextStyle)
-          .merge(widget.requestBubbleSettings.textStyle),
+          .merge(widget.requestMessageSettings.textStyle),
       responseContentTextStyle: contentBaseTextStyle
           .merge(_userDefinedThemeData.responseContentTextStyle)
-          .merge(widget.responseBubbleSettings.textStyle),
+          .merge(widget.responseMessageSettings.textStyle),
       requestPrimaryHeaderTextStyle: primaryHeaderBaseTextStyle
           .merge(_userDefinedThemeData.requestPrimaryHeaderTextStyle)
-          .merge(widget.requestBubbleSettings.headerTextStyle),
+          .merge(widget.requestMessageSettings.headerTextStyle),
       responsePrimaryHeaderTextStyle: primaryHeaderBaseTextStyle
           .merge(_userDefinedThemeData.responsePrimaryHeaderTextStyle)
-          .merge(widget.responseBubbleSettings.headerTextStyle),
+          .merge(widget.responseMessageSettings.headerTextStyle),
       requestSecondaryHeaderTextStyle: secondaryHeaderBaseTextStyle
           .merge(_userDefinedThemeData.requestSecondaryHeaderTextStyle)
-          .merge(widget.requestBubbleSettings.headerTextStyle),
+          .merge(widget.requestMessageSettings.headerTextStyle),
       responseSecondaryHeaderTextStyle: secondaryHeaderBaseTextStyle
           .merge(_userDefinedThemeData.responseSecondaryHeaderTextStyle)
-          .merge(widget.responseBubbleSettings.headerTextStyle),
-      requestBubbleContentShape: widget.requestBubbleSettings.contentShape ??
-          _userDefinedThemeData.requestBubbleContentShape ??
-          _defaultThemeData.requestBubbleContentShape,
-      responseBubbleContentShape: widget.responseBubbleSettings.contentShape ??
-          _userDefinedThemeData.responseBubbleContentShape ??
-          _defaultThemeData.responseBubbleContentShape,
+          .merge(widget.responseMessageSettings.headerTextStyle),
+      requestMessageShape:
+          widget.requestMessageSettings.shape ??
+          _userDefinedThemeData.requestMessageShape ??
+          _defaultThemeData.requestMessageShape,
+      responseMessageShape:
+          widget.responseMessageSettings.shape ??
+          _userDefinedThemeData.responseMessageShape ??
+          _defaultThemeData.responseMessageShape,
       suggestionItemBackgroundColor:
           _userDefinedThemeData.suggestionItemBackgroundColor ??
-              _defaultThemeData.suggestionItemBackgroundColor,
-      suggestionItemShape: _userDefinedThemeData.suggestionItemShape ??
+          _defaultThemeData.suggestionItemBackgroundColor,
+      suggestionItemShape:
+          _userDefinedThemeData.suggestionItemShape ??
           _defaultThemeData.suggestionItemShape,
       responseToolbarItemBackgroundColor:
           _userDefinedThemeData.responseToolbarItemBackgroundColor ??
-              _defaultThemeData.responseToolbarItemBackgroundColor,
+          _defaultThemeData.responseToolbarItemBackgroundColor,
       responseToolbarItemShape:
           _userDefinedThemeData.responseToolbarItemShape ??
-              _defaultThemeData.responseToolbarItemShape,
+          _defaultThemeData.responseToolbarItemShape,
     );
   }
 
   TextStyle _suggestionTextStyle(Set<WidgetState> states) {
     TextStyle? userTextStyle;
-    final TextStyle baseTextStyle = _themeData.textTheme.bodyMedium!
-        .copyWith(color: _themeData.colorScheme.onSurface);
+    final TextStyle baseTextStyle = _themeData.textTheme.bodyMedium!.copyWith(
+      color: _themeData.colorScheme.onSurface,
+    );
     final TextStyle defaultTextStyle =
         _defaultThemeData.suggestionItemTextStyle!.resolve(states)!;
     if (_userDefinedThemeData.suggestionItemTextStyle != null) {
-      userTextStyle =
-          _userDefinedThemeData.suggestionItemTextStyle?.resolve(states);
+      userTextStyle = _userDefinedThemeData.suggestionItemTextStyle?.resolve(
+        states,
+      );
     }
 
     return baseTextStyle.merge(userTextStyle).merge(defaultTextStyle);
@@ -822,13 +841,13 @@ class _SfAIAssistViewState extends State<SfAIAssistView> {
     }
   }
 
-  BubbleAlignment _toBubbleAlignment(AssistBubbleAlignment value) {
+  BubbleAlignment _toBubbleAlignment(AssistMessageAlignment value) {
     switch (value) {
-      case AssistBubbleAlignment.start:
+      case AssistMessageAlignment.start:
         return BubbleAlignment.start;
-      case AssistBubbleAlignment.end:
+      case AssistMessageAlignment.end:
         return BubbleAlignment.end;
-      case AssistBubbleAlignment.auto:
+      case AssistMessageAlignment.auto:
         return BubbleAlignment.auto;
     }
   }
@@ -859,27 +878,30 @@ class _SfAIAssistViewState extends State<SfAIAssistView> {
       children: <Widget>[
         AssistConversationArea(
           messages: widget.messages,
-          outgoingBubbleSettings:
-              _requestBubbleSettings.mergeWith(widget.requestBubbleSettings),
-          incomingBubbleSettings:
-              _responseBubbleSettings.mergeWith(widget.responseBubbleSettings),
-          bubbleAlignment: _toBubbleAlignment(widget.bubbleAlignment),
-          placeholderBehavior:
-              _toPlaceholderBehavior(widget.placeholderBehavior),
+          outgoingBubbleSettings: _requestMessageSettings.mergeWith(
+            widget.requestMessageSettings,
+          ),
+          incomingBubbleSettings: _responseMessageSettings.mergeWith(
+            widget.responseMessageSettings,
+          ),
+          bubbleAlignment: _toBubbleAlignment(widget.messageAlignment),
+          placeholderBehavior: _toPlaceholderBehavior(
+            widget.placeholderBehavior,
+          ),
           placeholderBuilder: widget.placeholderBuilder,
-          bubbleHeaderBuilder: widget.bubbleHeaderBuilder,
-          bubbleAvatarBuilder: widget.bubbleAvatarBuilder,
-          bubbleContentBuilder: widget.bubbleContentBuilder,
-          bubbleFooterBuilder: widget.bubbleFooterBuilder,
+          bubbleHeaderBuilder: widget.messageHeaderBuilder,
+          bubbleAvatarBuilder: widget.messageAvatarBuilder,
+          bubbleContentBuilder: widget.messageContentBuilder,
+          bubbleFooterBuilder: widget.messageFooterBuilder,
           responseLoadingBuilder: widget.responseLoadingBuilder,
           outgoingAvatarBackgroundColor:
               _effectiveAssistThemeData.requestAvatarBackgroundColor,
           incomingAvatarBackgroundColor:
               _effectiveAssistThemeData.responseAvatarBackgroundColor,
           outgoingBubbleContentBackgroundColor:
-              _effectiveAssistThemeData.requestBubbleContentBackgroundColor,
+              _effectiveAssistThemeData.requestMessageBackgroundColor,
           incomingBubbleContentBackgroundColor:
-              _effectiveAssistThemeData.responseBubbleContentBackgroundColor,
+              _effectiveAssistThemeData.responseMessageBackgroundColor,
           outgoingPrimaryHeaderTextStyle:
               _effectiveAssistThemeData.requestPrimaryHeaderTextStyle,
           incomingPrimaryHeaderTextStyle:
@@ -894,9 +916,9 @@ class _SfAIAssistViewState extends State<SfAIAssistView> {
               _effectiveAssistThemeData.responseContentTextStyle,
           suggestionItemTextStyle: _suggestionTextStyle,
           outgoingBubbleContentShape:
-              _effectiveAssistThemeData.requestBubbleContentShape,
+              _effectiveAssistThemeData.requestMessageShape,
           incomingBubbleContentShape:
-              _effectiveAssistThemeData.responseBubbleContentShape,
+              _effectiveAssistThemeData.responseMessageShape,
           suggestionBackgroundColor:
               _effectiveAssistThemeData.suggestionBackgroundColor,
           suggestionBackgroundShape:
@@ -913,7 +935,7 @@ class _SfAIAssistViewState extends State<SfAIAssistView> {
           responseToolbarItemShape:
               _effectiveAssistThemeData.responseToolbarItemShape,
           onSuggestionItemSelected: widget.onSuggestionItemSelected,
-          onBubbleToolbarItemSelected: widget.onBubbleToolbarItemSelected,
+          onBubbleToolbarItemSelected: widget.onToolbarItemSelected,
           responseToolbarSettings: widget.responseToolbarSettings,
           themeData: _themeData,
         ),

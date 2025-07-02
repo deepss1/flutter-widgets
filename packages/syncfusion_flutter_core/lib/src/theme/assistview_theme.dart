@@ -100,8 +100,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
     this.actionButtonShape,
     this.requestAvatarBackgroundColor,
     this.responseAvatarBackgroundColor,
-    this.requestBubbleContentBackgroundColor,
-    this.responseBubbleContentBackgroundColor,
+    this.requestMessageBackgroundColor,
+    this.responseMessageBackgroundColor,
     this.editorTextStyle,
     this.requestContentTextStyle,
     this.responseContentTextStyle,
@@ -110,8 +110,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
     this.requestSecondaryHeaderTextStyle,
     this.responseSecondaryHeaderTextStyle,
     this.suggestionItemTextStyle,
-    this.requestBubbleContentShape,
-    this.responseBubbleContentShape,
+    this.requestMessageShape,
+    this.responseMessageShape,
     this.suggestionBackgroundColor,
     this.suggestionBackgroundShape,
     this.suggestionItemBackgroundColor,
@@ -143,8 +143,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
     MouseCursor? actionButtonMouseCursor,
     Color? requestAvatarBackgroundColor,
     Color? responseAvatarBackgroundColor,
-    Color? requestBubbleContentBackgroundColor,
-    Color? responseBubbleContentBackgroundColor,
+    Color? requestMessageBackgroundColor,
+    Color? responseMessageBackgroundColor,
     TextStyle? editorTextStyle,
     TextStyle? requestContentTextStyle,
     TextStyle? responseContentTextStyle,
@@ -153,8 +153,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
     TextStyle? requestSecondaryHeaderTextStyle,
     TextStyle? responseSecondaryHeaderTextStyle,
     WidgetStateProperty<TextStyle?>? suggestionItemTextStyle,
-    ShapeBorder? requestBubbleContentShape,
-    ShapeBorder? responseBubbleContentShape,
+    ShapeBorder? requestMessageShape,
+    ShapeBorder? responseMessageShape,
     Color? suggestionBackgroundColor,
     ShapeBorder? suggestionBackgroundShape,
     WidgetStateProperty<Color?>? suggestionItemBackgroundColor,
@@ -181,9 +181,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
       actionButtonMouseCursor: actionButtonMouseCursor,
       requestAvatarBackgroundColor: requestAvatarBackgroundColor,
       responseAvatarBackgroundColor: responseAvatarBackgroundColor,
-      requestBubbleContentBackgroundColor: requestBubbleContentBackgroundColor,
-      responseBubbleContentBackgroundColor:
-          responseBubbleContentBackgroundColor,
+      requestMessageBackgroundColor: requestMessageBackgroundColor,
+      responseMessageBackgroundColor: responseMessageBackgroundColor,
       editorTextStyle: editorTextStyle,
       requestContentTextStyle: requestContentTextStyle,
       responseContentTextStyle: responseContentTextStyle,
@@ -192,8 +191,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
       requestSecondaryHeaderTextStyle: requestSecondaryHeaderTextStyle,
       responseSecondaryHeaderTextStyle: responseSecondaryHeaderTextStyle,
       suggestionItemTextStyle: suggestionItemTextStyle,
-      requestBubbleContentShape: requestBubbleContentShape,
-      responseBubbleContentShape: responseBubbleContentShape,
+      requestMessageShape: requestMessageShape,
+      responseMessageShape: responseMessageShape,
       suggestionBackgroundColor: suggestionBackgroundColor,
       suggestionBackgroundShape: suggestionBackgroundShape,
       suggestionItemBackgroundColor: suggestionItemBackgroundColor,
@@ -472,14 +471,14 @@ class SfAIAssistViewThemeData with Diagnosticable {
   ///   return Scaffold(
   ///     body: SfAIAssistViewTheme(
   ///       data: SfAIAssistViewThemeData(
-  ///         requestBubbleContentBackgroundColor: Colors.blueAccent,
+  ///         requestMessageBackgroundColor: Colors.blueAccent,
   ///       ),
   ///       child: SfAIAssistView(),
   ///     ),
   ///   );
   /// }
   /// ```
-  final Color? requestBubbleContentBackgroundColor;
+  final Color? requestMessageBackgroundColor;
 
   /// Background color of response message bubbles.
   ///
@@ -488,14 +487,14 @@ class SfAIAssistViewThemeData with Diagnosticable {
   ///   return Scaffold(
   ///     body: SfAIAssistViewTheme(
   ///       data: SfAIAssistViewThemeData(
-  ///         responseBubbleContentBackgroundColor: Colors.grey[300],
+  ///         responseMessageBackgroundColor: Colors.grey[300],
   ///       ),
   ///       child: SfAIAssistView(),
   ///     ),
   ///   );
   /// }
   /// ```
-  final Color? responseBubbleContentBackgroundColor;
+  final Color? responseMessageBackgroundColor;
 
   /// Text style for the message editor.
   ///
@@ -663,7 +662,7 @@ class SfAIAssistViewThemeData with Diagnosticable {
   ///   return Scaffold(
   ///     body: SfAIAssistViewTheme(
   ///       data: SfAIAssistViewThemeData(
-  ///         requestBubbleContentShape: RoundedRectangleBorder(
+  ///         requestMessageShape: RoundedRectangleBorder(
   ///           borderRadius: BorderRadius.circular(12.0),
   ///         ),
   ///       ),
@@ -672,7 +671,7 @@ class SfAIAssistViewThemeData with Diagnosticable {
   ///   );
   /// }
   /// ```
-  final ShapeBorder? requestBubbleContentShape;
+  final ShapeBorder? requestMessageShape;
 
   /// Shape of the response message bubble.
   ///
@@ -681,7 +680,7 @@ class SfAIAssistViewThemeData with Diagnosticable {
   ///   return Scaffold(
   ///     body: SfAIAssistViewTheme(
   ///       data: SfAIAssistViewThemeData(
-  ///         responseBubbleContentShape: RoundedRectangleBorder(
+  ///         responseMessageShape: RoundedRectangleBorder(
   ///           borderRadius: BorderRadius.circular(12.0),
   ///         ),
   ///       ),
@@ -690,7 +689,7 @@ class SfAIAssistViewThemeData with Diagnosticable {
   ///   );
   /// }
   /// ```
-  final ShapeBorder? responseBubbleContentShape;
+  final ShapeBorder? responseMessageShape;
 
   /// Background color of the suggestion area.
   ///
@@ -887,8 +886,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
     MouseCursor? actionButtonMouseCursor,
     Color? requestAvatarBackgroundColor,
     Color? responseAvatarBackgroundColor,
-    Color? requestBubbleContentBackgroundColor,
-    Color? responseBubbleContentBackgroundColor,
+    Color? requestMessageBackgroundColor,
+    Color? responseMessageBackgroundColor,
     TextStyle? editorTextStyle,
     TextStyle? requestContentTextStyle,
     TextStyle? responseContentTextStyle,
@@ -897,8 +896,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
     TextStyle? requestSecondaryHeaderTextStyle,
     TextStyle? responseSecondaryHeaderTextStyle,
     WidgetStateProperty<TextStyle?>? suggestionItemTextStyle,
-    ShapeBorder? requestBubbleContentShape,
-    ShapeBorder? responseBubbleContentShape,
+    ShapeBorder? requestMessageShape,
+    ShapeBorder? responseMessageShape,
     Color? suggestionBackgroundColor,
     ShapeBorder? suggestionBackgroundShape,
     WidgetStateProperty<Color?>? suggestionItemBackgroundColor,
@@ -921,10 +920,10 @@ class SfAIAssistViewThemeData with Diagnosticable {
           actionButtonSplashColor ?? this.actionButtonSplashColor,
       actionButtonDisabledForegroundColor:
           actionButtonDisabledForegroundColor ??
-              this.actionButtonDisabledForegroundColor,
+          this.actionButtonDisabledForegroundColor,
       actionButtonDisabledBackgroundColor:
           actionButtonDisabledBackgroundColor ??
-              this.actionButtonDisabledBackgroundColor,
+          this.actionButtonDisabledBackgroundColor,
       actionButtonElevation:
           actionButtonElevation ?? this.actionButtonElevation,
       actionButtonFocusElevation:
@@ -942,12 +941,10 @@ class SfAIAssistViewThemeData with Diagnosticable {
           requestAvatarBackgroundColor ?? this.requestAvatarBackgroundColor,
       responseAvatarBackgroundColor:
           responseAvatarBackgroundColor ?? this.responseAvatarBackgroundColor,
-      requestBubbleContentBackgroundColor:
-          requestBubbleContentBackgroundColor ??
-              this.requestBubbleContentBackgroundColor,
-      responseBubbleContentBackgroundColor:
-          responseBubbleContentBackgroundColor ??
-              this.responseBubbleContentBackgroundColor,
+      requestMessageBackgroundColor:
+          requestMessageBackgroundColor ?? this.requestMessageBackgroundColor,
+      responseMessageBackgroundColor:
+          responseMessageBackgroundColor ?? this.responseMessageBackgroundColor,
       editorTextStyle: editorTextStyle ?? this.editorTextStyle,
       requestContentTextStyle:
           requestContentTextStyle ?? this.requestContentTextStyle,
@@ -957,16 +954,16 @@ class SfAIAssistViewThemeData with Diagnosticable {
           requestPrimaryHeaderTextStyle ?? this.requestPrimaryHeaderTextStyle,
       responsePrimaryHeaderTextStyle:
           responsePrimaryHeaderTextStyle ?? this.responsePrimaryHeaderTextStyle,
-      requestSecondaryHeaderTextStyle: requestSecondaryHeaderTextStyle ??
+      requestSecondaryHeaderTextStyle:
+          requestSecondaryHeaderTextStyle ??
           this.requestSecondaryHeaderTextStyle,
-      responseSecondaryHeaderTextStyle: responseSecondaryHeaderTextStyle ??
+      responseSecondaryHeaderTextStyle:
+          responseSecondaryHeaderTextStyle ??
           this.responseSecondaryHeaderTextStyle,
       suggestionItemTextStyle:
           suggestionItemTextStyle ?? this.suggestionItemTextStyle,
-      requestBubbleContentShape:
-          requestBubbleContentShape ?? this.requestBubbleContentShape,
-      responseBubbleContentShape:
-          responseBubbleContentShape ?? this.responseBubbleContentShape,
+      requestMessageShape: requestMessageShape ?? this.requestMessageShape,
+      responseMessageShape: responseMessageShape ?? this.responseMessageShape,
       suggestionBackgroundColor:
           suggestionBackgroundColor ?? this.suggestionBackgroundColor,
       suggestionBackgroundShape:
@@ -978,7 +975,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
           responseToolbarBackgroundColor ?? this.responseToolbarBackgroundColor,
       responseToolbarBackgroundShape:
           responseToolbarBackgroundShape ?? this.responseToolbarBackgroundShape,
-      responseToolbarItemBackgroundColor: responseToolbarItemBackgroundColor ??
+      responseToolbarItemBackgroundColor:
+          responseToolbarItemBackgroundColor ??
           this.responseToolbarItemBackgroundColor,
       responseToolbarItemShape:
           responseToolbarItemShape ?? this.responseToolbarItemShape,
@@ -986,95 +984,164 @@ class SfAIAssistViewThemeData with Diagnosticable {
   }
 
   static SfAIAssistViewThemeData? lerp(
-      SfAIAssistViewThemeData? a, SfAIAssistViewThemeData? b, double t) {
+    SfAIAssistViewThemeData? a,
+    SfAIAssistViewThemeData? b,
+    double t,
+  ) {
     if (a == null && b == null) {
       return null;
     }
     return SfAIAssistViewThemeData(
       actionButtonForegroundColor: Color.lerp(
-          a!.actionButtonForegroundColor, b!.actionButtonForegroundColor, t),
+        a!.actionButtonForegroundColor,
+        b!.actionButtonForegroundColor,
+        t,
+      ),
       actionButtonBackgroundColor: Color.lerp(
-          a.actionButtonBackgroundColor, b.actionButtonBackgroundColor, t),
-      actionButtonFocusColor:
-          Color.lerp(a.actionButtonFocusColor, b.actionButtonFocusColor, t),
-      actionButtonHoverColor:
-          Color.lerp(a.actionButtonHoverColor, b.actionButtonHoverColor, t),
-      actionButtonSplashColor:
-          Color.lerp(a.actionButtonSplashColor, b.actionButtonSplashColor, t),
+        a.actionButtonBackgroundColor,
+        b.actionButtonBackgroundColor,
+        t,
+      ),
+      actionButtonFocusColor: Color.lerp(
+        a.actionButtonFocusColor,
+        b.actionButtonFocusColor,
+        t,
+      ),
+      actionButtonHoverColor: Color.lerp(
+        a.actionButtonHoverColor,
+        b.actionButtonHoverColor,
+        t,
+      ),
+      actionButtonSplashColor: Color.lerp(
+        a.actionButtonSplashColor,
+        b.actionButtonSplashColor,
+        t,
+      ),
       actionButtonDisabledForegroundColor: Color.lerp(
-          a.actionButtonDisabledForegroundColor,
-          b.actionButtonDisabledForegroundColor,
-          t),
+        a.actionButtonDisabledForegroundColor,
+        b.actionButtonDisabledForegroundColor,
+        t,
+      ),
       actionButtonDisabledBackgroundColor: Color.lerp(
-          a.actionButtonDisabledBackgroundColor,
-          b.actionButtonDisabledBackgroundColor,
-          t),
+        a.actionButtonDisabledBackgroundColor,
+        b.actionButtonDisabledBackgroundColor,
+        t,
+      ),
       actionButtonElevation:
           lerpDouble(a.actionButtonElevation, b.actionButtonElevation, t) ??
-              0.0,
-      actionButtonFocusElevation: lerpDouble(
-              a.actionButtonFocusElevation, b.actionButtonFocusElevation, t) ??
           0.0,
-      actionButtonHoverElevation: lerpDouble(
-              a.actionButtonHoverElevation, b.actionButtonHoverElevation, t) ??
+      actionButtonFocusElevation:
+          lerpDouble(
+            a.actionButtonFocusElevation,
+            b.actionButtonFocusElevation,
+            t,
+          ) ??
           0.0,
-      actionButtonDisabledElevation: lerpDouble(a.actionButtonDisabledElevation,
-              b.actionButtonDisabledElevation, t) ??
+      actionButtonHoverElevation:
+          lerpDouble(
+            a.actionButtonHoverElevation,
+            b.actionButtonHoverElevation,
+            t,
+          ) ??
           0.0,
-      actionButtonHighlightElevation: lerpDouble(
-              a.actionButtonHighlightElevation,
-              b.actionButtonHighlightElevation,
-              t) ??
+      actionButtonDisabledElevation:
+          lerpDouble(
+            a.actionButtonDisabledElevation,
+            b.actionButtonDisabledElevation,
+            t,
+          ) ??
           0.0,
-      actionButtonShape:
-          ShapeBorder.lerp(a.actionButtonShape, b.actionButtonShape, t),
+      actionButtonHighlightElevation:
+          lerpDouble(
+            a.actionButtonHighlightElevation,
+            b.actionButtonHighlightElevation,
+            t,
+          ) ??
+          0.0,
+      actionButtonShape: ShapeBorder.lerp(
+        a.actionButtonShape,
+        b.actionButtonShape,
+        t,
+      ),
       actionButtonMouseCursor:
           t < 0.5 ? a.actionButtonMouseCursor : b.actionButtonMouseCursor,
       requestAvatarBackgroundColor: Color.lerp(
-          a.requestAvatarBackgroundColor, b.requestAvatarBackgroundColor, t),
+        a.requestAvatarBackgroundColor,
+        b.requestAvatarBackgroundColor,
+        t,
+      ),
       responseAvatarBackgroundColor: Color.lerp(
-          a.responseAvatarBackgroundColor, b.responseAvatarBackgroundColor, t),
-      requestBubbleContentBackgroundColor: Color.lerp(
-          a.requestBubbleContentBackgroundColor,
-          b.requestBubbleContentBackgroundColor,
-          t),
-      responseBubbleContentBackgroundColor: Color.lerp(
-          a.responseBubbleContentBackgroundColor,
-          b.responseBubbleContentBackgroundColor,
-          t),
+        a.responseAvatarBackgroundColor,
+        b.responseAvatarBackgroundColor,
+        t,
+      ),
+      requestMessageBackgroundColor: Color.lerp(
+        a.requestMessageBackgroundColor,
+        b.requestMessageBackgroundColor,
+        t,
+      ),
+      responseMessageBackgroundColor: Color.lerp(
+        a.responseMessageBackgroundColor,
+        b.responseMessageBackgroundColor,
+        t,
+      ),
       editorTextStyle: TextStyle.lerp(a.editorTextStyle, b.editorTextStyle, t),
       requestContentTextStyle: TextStyle.lerp(
-          a.requestContentTextStyle, b.requestContentTextStyle, t),
+        a.requestContentTextStyle,
+        b.requestContentTextStyle,
+        t,
+      ),
       responseContentTextStyle: TextStyle.lerp(
-          a.responseContentTextStyle, b.responseContentTextStyle, t),
+        a.responseContentTextStyle,
+        b.responseContentTextStyle,
+        t,
+      ),
       requestPrimaryHeaderTextStyle: TextStyle.lerp(
-          a.requestPrimaryHeaderTextStyle, b.requestPrimaryHeaderTextStyle, t),
+        a.requestPrimaryHeaderTextStyle,
+        b.requestPrimaryHeaderTextStyle,
+        t,
+      ),
       responsePrimaryHeaderTextStyle: TextStyle.lerp(
-          a.responsePrimaryHeaderTextStyle,
-          b.responsePrimaryHeaderTextStyle,
-          t),
+        a.responsePrimaryHeaderTextStyle,
+        b.responsePrimaryHeaderTextStyle,
+        t,
+      ),
       requestSecondaryHeaderTextStyle: TextStyle.lerp(
-          a.requestSecondaryHeaderTextStyle,
-          b.requestSecondaryHeaderTextStyle,
-          t),
+        a.requestSecondaryHeaderTextStyle,
+        b.requestSecondaryHeaderTextStyle,
+        t,
+      ),
       responseSecondaryHeaderTextStyle: TextStyle.lerp(
-          a.responseSecondaryHeaderTextStyle,
-          b.responseSecondaryHeaderTextStyle,
-          t),
+        a.responseSecondaryHeaderTextStyle,
+        b.responseSecondaryHeaderTextStyle,
+        t,
+      ),
       suggestionItemTextStyle: WidgetStateProperty.lerp<TextStyle?>(
         a.suggestionItemTextStyle,
         b.suggestionItemTextStyle,
         t,
         TextStyle.lerp,
       ),
-      requestBubbleContentShape: ShapeBorder.lerp(
-          a.requestBubbleContentShape, b.requestBubbleContentShape, t),
-      responseBubbleContentShape: ShapeBorder.lerp(
-          a.responseBubbleContentShape, b.responseBubbleContentShape, t),
+      requestMessageShape: ShapeBorder.lerp(
+        a.requestMessageShape,
+        b.requestMessageShape,
+        t,
+      ),
+      responseMessageShape: ShapeBorder.lerp(
+        a.responseMessageShape,
+        b.responseMessageShape,
+        t,
+      ),
       suggestionBackgroundColor: Color.lerp(
-          a.suggestionBackgroundColor, b.suggestionBackgroundColor, t),
+        a.suggestionBackgroundColor,
+        b.suggestionBackgroundColor,
+        t,
+      ),
       suggestionBackgroundShape: ShapeBorder.lerp(
-          a.suggestionBackgroundShape, b.suggestionBackgroundShape, t),
+        a.suggestionBackgroundShape,
+        b.suggestionBackgroundShape,
+        t,
+      ),
       suggestionItemBackgroundColor: WidgetStateProperty.lerp<Color?>(
         a.suggestionItemBackgroundColor,
         b.suggestionItemBackgroundColor,
@@ -1088,13 +1155,15 @@ class SfAIAssistViewThemeData with Diagnosticable {
         ShapeBorder.lerp,
       ),
       responseToolbarBackgroundColor: Color.lerp(
-          a.responseToolbarBackgroundColor,
-          b.responseToolbarBackgroundColor,
-          t),
+        a.responseToolbarBackgroundColor,
+        b.responseToolbarBackgroundColor,
+        t,
+      ),
       responseToolbarBackgroundShape: ShapeBorder.lerp(
-          a.responseToolbarBackgroundShape,
-          b.responseToolbarBackgroundShape,
-          t),
+        a.responseToolbarBackgroundShape,
+        b.responseToolbarBackgroundShape,
+        t,
+      ),
       responseToolbarItemBackgroundColor: WidgetStateProperty.lerp<Color?>(
         a.responseToolbarItemBackgroundColor,
         b.responseToolbarItemBackgroundColor,
@@ -1140,10 +1209,9 @@ class SfAIAssistViewThemeData with Diagnosticable {
         other.actionButtonMouseCursor == actionButtonMouseCursor &&
         other.requestAvatarBackgroundColor == requestAvatarBackgroundColor &&
         other.responseAvatarBackgroundColor == responseAvatarBackgroundColor &&
-        other.requestBubbleContentBackgroundColor ==
-            requestBubbleContentBackgroundColor &&
-        other.responseBubbleContentBackgroundColor ==
-            responseBubbleContentBackgroundColor &&
+        other.requestMessageBackgroundColor == requestMessageBackgroundColor &&
+        other.responseMessageBackgroundColor ==
+            responseMessageBackgroundColor &&
         other.editorTextStyle == editorTextStyle &&
         other.requestContentTextStyle == requestContentTextStyle &&
         other.responseContentTextStyle == responseContentTextStyle &&
@@ -1155,8 +1223,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
         other.responseSecondaryHeaderTextStyle ==
             responseSecondaryHeaderTextStyle &&
         other.suggestionItemTextStyle == suggestionItemTextStyle &&
-        other.requestBubbleContentShape == requestBubbleContentShape &&
-        other.responseBubbleContentShape == responseBubbleContentShape &&
+        other.requestMessageShape == requestMessageShape &&
+        other.responseMessageShape == responseMessageShape &&
         other.suggestionBackgroundColor == suggestionBackgroundColor &&
         other.suggestionBackgroundShape == suggestionBackgroundShape &&
         other.suggestionItemBackgroundColor == suggestionItemBackgroundColor &&
@@ -1189,8 +1257,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
       actionButtonMouseCursor,
       requestAvatarBackgroundColor,
       responseAvatarBackgroundColor,
-      requestBubbleContentBackgroundColor,
-      responseBubbleContentBackgroundColor,
+      requestMessageBackgroundColor,
+      responseMessageBackgroundColor,
       editorTextStyle,
       requestContentTextStyle,
       responseContentTextStyle,
@@ -1199,8 +1267,8 @@ class SfAIAssistViewThemeData with Diagnosticable {
       requestSecondaryHeaderTextStyle,
       responseSecondaryHeaderTextStyle,
       suggestionItemTextStyle,
-      requestBubbleContentShape,
-      responseBubbleContentShape,
+      requestMessageShape,
+      responseMessageShape,
       suggestionBackgroundColor,
       suggestionBackgroundShape,
       suggestionItemBackgroundColor,
@@ -1331,16 +1399,16 @@ class SfAIAssistViewThemeData with Diagnosticable {
     );
     properties.add(
       ColorProperty(
-        'requestBubbleContentBackgroundColor',
-        requestBubbleContentBackgroundColor,
-        defaultValue: defaultData.requestBubbleContentBackgroundColor,
+        'requestMessageBackgroundColor',
+        requestMessageBackgroundColor,
+        defaultValue: defaultData.requestMessageBackgroundColor,
       ),
     );
     properties.add(
       ColorProperty(
-        'responseBubbleContentBackgroundColor',
-        responseBubbleContentBackgroundColor,
-        defaultValue: defaultData.responseBubbleContentBackgroundColor,
+        'responseMessageBackgroundColor',
+        responseMessageBackgroundColor,
+        defaultValue: defaultData.responseMessageBackgroundColor,
       ),
     );
     properties.add(
@@ -1402,16 +1470,16 @@ class SfAIAssistViewThemeData with Diagnosticable {
     );
     properties.add(
       DiagnosticsProperty<ShapeBorder>(
-        'requestBubbleContentShape',
-        requestBubbleContentShape,
-        defaultValue: defaultData.requestBubbleContentShape,
+        'requestMessageShape',
+        requestMessageShape,
+        defaultValue: defaultData.requestMessageShape,
       ),
     );
     properties.add(
       DiagnosticsProperty<ShapeBorder>(
-        'responseBubbleContentShape',
-        responseBubbleContentShape,
-        defaultValue: defaultData.responseBubbleContentShape,
+        'responseMessageShape',
+        responseMessageShape,
+        defaultValue: defaultData.responseMessageShape,
       ),
     );
     properties.add(
